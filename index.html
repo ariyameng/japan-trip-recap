@@ -34,7 +34,7 @@
           },
           fontFamily: {
             hand: ['"Klee One"', 'cursive', 'system-ui'],
-            zen:  ['"Zen Maru Gothic"', 'serif', 'system-ui'],
+            zen:  ['"Zen Maru Gothic"', '"Klee One"', 'cursive', 'system-ui'],
           },
         },
       },
@@ -99,7 +99,7 @@
       box-shadow: 0 2px 12px rgba(61, 53, 40, 0.05);
     }
     .gb-card-user { border-color: rgba(212, 83, 126, 0.28); }
-    .gb-name { font-family: 'Zen Maru Gothic', serif; font-weight: 700; color: #3D3528; }
+    .gb-name { font-family: 'Zen Maru Gothic', 'Klee One', cursive; font-weight: 700; color: #3D3528; }
     .gb-date { font-size: 10px; color: #6B5E4A; }
     .gb-text { font-size: 0.92rem; line-height: 1.75; color: #3D3528; white-space: pre-wrap; word-break: break-word; }
     .gb-form input, .gb-form textarea {
@@ -549,7 +549,7 @@
                   <circle r="15" fill="${p.c.color || '#888'}" opacity="0.9" />
                   <text y="5" text-anchor="middle" font-size="14" fill="white">${escapeHtml(p.c.emoji || '●')}</text>
                   <text y="-30" text-anchor="middle" font-size="12" fill="#3D3528" font-weight="700"
-                        style="font-family:'Zen Maru Gothic',serif;">${escapeHtml(p.c.name)}</text>
+                        style="font-family:'Zen Maru Gothic','Klee One',serif;">${escapeHtml(p.c.name)}</text>
                 </g>
               `).join('')}
             </svg>
