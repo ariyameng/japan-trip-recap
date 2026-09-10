@@ -450,37 +450,6 @@
     .souv-card .s-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; }
     .souv-card .s-note { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.6rem; }
 
-    /* —— 留言墙（Twikoo 匿名评论：数据存服务端，所有访客可见） —— */
-    .twikoo-wrap { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
-    /* 让 Twikoo 融入极简白底日式风：白底、细线、无阴影、去圆角、正文字体与节奏 */
-    .twikoo { font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.9; color: var(--text); }
-    .twikoo .el-input__inner,
-    .twikoo .el-textarea__inner,
-    .twikoo .tk-input {
-      border: 1px solid var(--line) !important;
-      border-radius: 0 !important;
-      background: #fff !important;
-      color: var(--text) !important;
-      box-shadow: none !important;
-      font-family: var(--font-sans) !important;
-    }
-    .twikoo .el-input__inner:focus,
-    .twikoo .el-textarea__inner:focus { border-color: var(--accent) !important; }
-    .twikoo .el-button,
-    .twikoo .tk-button {
-      border: 1px solid var(--line-strong) !important;
-      border-radius: 0 !important;
-      background: #fff !important;
-      color: var(--text) !important;
-      box-shadow: none !important;
-    }
-    .twikoo .el-button:hover,
-    .twikoo .tk-button:hover { border-color: var(--accent) !important; color: var(--accent) !important; }
-    .twikoo .tk-comment { border-top: 1px solid var(--line); padding-top: 1rem; }
-    .twikoo .tk-avatar, .twikoo .tk-avatar-img { border-radius: 0 !important; }
-    .twikoo a { color: var(--accent); }
-    .twikoo .tk-action-icon, .twikoo .tk-footer { color: var(--text-muted); }
-
     /* —— 结尾 —— */
     .ending { text-align: center; }
     .ending p { color: var(--text-muted); font-size: 1rem; max-width: 28rem; margin: 1.5rem auto 0; line-height: 2; }
@@ -554,7 +523,6 @@
       <li><a href="#footmap">足迹</a></li>
       <li><a href="#food">味觉</a></li>
       <li><a href="#diary">日记</a></li>
-      <li><a href="#guestbook">留言</a></li>
     </ul>
   </nav>
 
@@ -986,21 +954,6 @@
         `;
       }
 
-      // 8. 留言板（替换原「下次再去」愿望清单）
-      // 8. 留言：Twikoo 匿名评论（存服务端，游客可留昵称/邮箱，人人可见）
-      function renderGuestbook() {
-        return `
-          <section id="guestbook">
-            <div class="sec-head"><span class="kicker">言</span><h2 class="section-title">留言墙</h2></div>
-            <p class="lead" style="margin-bottom:1.5rem">来过的朋友，留句话再走。</p>
-            <!-- Twikoo 匿名评论：数据存服务端（MongoDB），所有访客可见 -->
-            <div class="twikoo-wrap">
-              <div id="twikoo"></div>
-            </div>
-          </section>
-        `;
-      }
-
       // 9. 结尾
       function renderEnding() {
         return `
@@ -1008,7 +961,7 @@
             <p>
               在日本的那些天已经过去，<br>
               但这些味道和光，<br>
-              还有你们留下的字，都还在。
+              都还在。
             </p>
             <div class="sign">— 回忆版 · by 红线<svg class="thread-mark" viewBox="0 0 24 7" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 3.5 C4 0.6, 7 6.4, 12 3.5 S19 0.6, 23 3.5" stroke="#BC002D" stroke-width="1.3" stroke-linecap="round"/></svg> &amp; 老大</div>
           </section>
@@ -1075,7 +1028,6 @@
           renderDays(),
           renderFoods(),
           renderSouvenirs(),
-          renderGuestbook(),
           renderEnding(),
           renderFooter(),
         ].join(KARESANSUI);
@@ -1084,39 +1036,10 @@
         app.querySelectorAll('section:not(.hero), .karesansui').forEach(s => s.classList.add('reveal'));
 
         bindLightbox();
-        bindTwikoo();
         bindBackTop();
         bindNavHighlight();
         bindReveal();
         initTripMap();
-      }
-
-      // 留言板：Twikoo 匿名评论（数据存服务端 MongoDB，所有访客可见）
-      // ⚠️ 部署好 Twikoo 后端后，把「环境地址（envId）」填到下面这个常量里即可
-      const TWIKOO_ENV_ID = '';
-
-      function bindTwikoo() {
-        const el = document.getElementById('twikoo');
-        if (!el || el.dataset.loaded) return;
-        el.dataset.loaded = '1';
-
-        if (!TWIKOO_ENV_ID) {
-          el.innerHTML = '<p style="color:var(--text-muted);font-size:0.82rem;text-align:center">评论系统正在接入中，稍后再来～</p>';
-          return;
-        }
-        const s = document.createElement('script');
-        s.src = 'https://cdn.jsdelivr.net/npm/twikoo@1/dist/twikoo.min.js';
-        s.async = true;
-        s.onload = function () {
-          if (typeof twikoo === 'undefined') return;
-          twikoo.init({
-            envId: TWIKOO_ENV_ID,
-            el: '#twikoo',
-            lang: 'zh-CN',
-            path: window.location.pathname
-          });
-        };
-        document.head.appendChild(s);
       }
 
       function bindBackTop() {
