@@ -446,6 +446,8 @@
     .gb-card .gb-name { font-family: var(--font-serif); font-weight: 600; font-size: 0.95rem; }
     .gb-card .gb-date { font-size: 0.7rem; color: var(--text-muted); }
     .gb-card .gb-text { font-size: 0.9rem; line-height: 1.8; color: var(--text); margin-top: 0.4rem; white-space: pre-wrap; word-break: break-word; }
+    /* Giscus 评论区：仅用一条发丝线与留言墙分隔，保持极简 */
+    .giscus-wrap { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
 
     /* —— 结尾 —— */
     .ending { text-align: center; }
@@ -998,6 +1000,10 @@
               ${renderGuestbookCards(seed, loadGuestbookState())}
             </div>
 
+            <!-- Giscus 多人评论：repo-id / category-id 已填入，GitHub Discussions 已开启 -->
+            <div class="giscus-wrap">
+              <div class="giscus" id="giscus-thread"></div>
+            </div>
           </section>
         `;
       }
@@ -1108,10 +1114,34 @@
 
         bindGuestbook();
         bindLightbox();
+        bindGiscus();
         bindBackTop();
         bindNavHighlight();
         bindReveal();
         initTripMap();
+      }
+
+      // Giscus 多人评论：动态创建 <script>（等价于静态 <script> 标签，适配本站 JS 渲染结构）
+      function bindGiscus() {
+        const el = document.getElementById('giscus-thread');
+        if (!el || el.dataset.loaded) return;
+        el.dataset.loaded = '1';
+        const s = document.createElement('script');
+        s.src = 'https://giscus.app/client.js';
+        s.async = true;
+        s.crossOrigin = 'anonymous';
+        s.setAttribute('data-repo', 'ariyameng/japan-trip-recap');
+        s.setAttribute('data-repo-id', 'R_kgDOUTVyqA');
+        s.setAttribute('data-category', 'Announcements');
+        s.setAttribute('data-category-id', 'DIC_kwDOUTVyqM4DFR9m');
+        s.setAttribute('data-mapping', 'pathname');
+        s.setAttribute('data-strict', '0');
+        s.setAttribute('data-reactions-enabled', '1');
+        s.setAttribute('data-emit-metadata', '0');
+        s.setAttribute('data-input-position', 'bottom');
+        s.setAttribute('data-theme', 'preferred_color_scheme');
+        s.setAttribute('data-lang', 'zh-CN');
+        el.appendChild(s);
       }
 
       function bindBackTop() {
