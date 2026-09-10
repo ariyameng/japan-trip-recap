@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="2026 年 8 月，从郑州出发、经上海改签，一路大阪·京都·东京·镰仓的 13 天日本治愈之旅。台风白海豚逼出的三次改签、深夜维也纳酒店的客服电话，和那些值得反复回味的味道与光。" />
+  <meta name="description" content="2026 年 8 月，从郑州出发的 13 天日本旅行回忆录：大阪、京都、东京、镰仓。台风里几经改道，最终还是飞了出去——那些值得反复回味的味道与光。" />
   <meta property="og:title" content="日本关西-关东治愈之旅 | 旅行回忆录" />
-  <meta property="og:description" content="13 天日本旅行回忆录：大阪、京都、东京、镰仓。台风改签与深夜电话之外的，是值得反复回味的味道与光。" />
+  <meta property="og:description" content="13 天日本旅行回忆录：大阪、京都、东京、镰仓。台风之外的，是那些值得反复回味的味道与光。" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://japan-trip-recap.pages.dev/" />
   <meta property="og:image" content="https://japan-trip-recap.pages.dev/og-cover.jpg" />
@@ -20,10 +20,9 @@
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@500;600;700&display=swap" />
 
-  <!-- Leaflet + Leaflet-KML 插件（jsDelivr CDN） -->
+  <!-- Leaflet（jsDelivr CDN） -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/windycom/leaflet-kml@master/L.KML.js"></script>
 
   <style>
     /* ============================================================
@@ -310,7 +309,13 @@
       height: 100%; padding: 1.5rem; text-align: center;
       font-size: 0.82rem; color: var(--text-muted); line-height: 1.9;
     }
-    /* 极简风格：弱化 Leaflet 控件描边，贴合白底灰线 */
+    /* 地图 tooltip：hover/点击才出现，白底发丝线，无阴影无箭头 */
+    .footmap .leaflet-tooltip {
+      background: #fff; border: 1px solid var(--line); border-radius: 0;
+      box-shadow: none; color: var(--text);
+      font-family: var(--font-sans); font-size: 0.78rem; padding: 0.2rem 0.5rem;
+    }
+    .footmap .leaflet-tooltip:before { display: none; }
     .footmap .leaflet-bar a {
       border-color: var(--line); color: var(--text);
       background: #fff;
@@ -445,9 +450,36 @@
     .souv-card .s-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; }
     .souv-card .s-note { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.6rem; }
 
-    /* —— 留言墙（Giscus，存 GitHub Discussions） —— */
-    /* Giscus 评论区：仅用一条发丝线与留言墙分隔，保持极简 */
-    .giscus-wrap { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+    /* —— 留言墙（Twikoo 匿名评论：数据存服务端，所有访客可见） —— */
+    .twikoo-wrap { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+    /* 让 Twikoo 融入极简白底日式风：白底、细线、无阴影、去圆角、正文字体与节奏 */
+    .twikoo { font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.9; color: var(--text); }
+    .twikoo .el-input__inner,
+    .twikoo .el-textarea__inner,
+    .twikoo .tk-input {
+      border: 1px solid var(--line) !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      color: var(--text) !important;
+      box-shadow: none !important;
+      font-family: var(--font-sans) !important;
+    }
+    .twikoo .el-input__inner:focus,
+    .twikoo .el-textarea__inner:focus { border-color: var(--accent) !important; }
+    .twikoo .el-button,
+    .twikoo .tk-button {
+      border: 1px solid var(--line-strong) !important;
+      border-radius: 0 !important;
+      background: #fff !important;
+      color: var(--text) !important;
+      box-shadow: none !important;
+    }
+    .twikoo .el-button:hover,
+    .twikoo .tk-button:hover { border-color: var(--accent) !important; color: var(--accent) !important; }
+    .twikoo .tk-comment { border-top: 1px solid var(--line); padding-top: 1rem; }
+    .twikoo .tk-avatar, .twikoo .tk-avatar-img { border-radius: 0 !important; }
+    .twikoo a { color: var(--accent); }
+    .twikoo .tk-action-icon, .twikoo .tk-footer { color: var(--text-muted); }
 
     /* —— 结尾 —— */
     .ending { text-align: center; }
@@ -506,6 +538,7 @@
       :root { --section-padding: 64px 20px; }
       .typhoon-stats { grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1rem; }
       .photo-grid { grid-template-columns: 1fr; }
+      .footmap #trip-map { height: 320px; }
       .souv-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -643,37 +676,19 @@
         `;
       }
 
-      // 2. 出发故事（台风「白海豚」· 三次改签）
+      // 2. 出发前后（仅一行客观事实）
       function renderTyphoon() {
-        if (!D.typhoon) return '';
-        const t = D.typhoon;
-        const storyArr = Array.isArray(t.story) ? t.story : (t.story ? [t.story] : []);
+        // 「行程」只讲客观事实：一行灰字即可，完整故事留给「日记 · 序章」
+        if (!D.typhoon || !D.typhoon.brief) return '';
         return `
           <section>
             <div class="sec-head"><span class="kicker">旅</span><h2 class="section-title">出发前后</h2></div>
-            <div class="typhoon-card rise">
-              ${t.mood ? `<div class="mood">${escapeHtml(t.mood)}</div>` : ''}
-              ${t.title ? `<h3>${escapeHtml(t.title)}</h3>` : ''}
-              <div class="typhoon-story">
-                ${storyArr.map(s => `<p>${escapeHtml(s)}</p>`).join('')}
-              </div>
-              ${t.stats && t.stats.length > 0 ? `
-                <div class="typhoon-stats">
-                  ${t.stats.map(s => `
-                    <div>
-                      <div class="val">${escapeHtml(s.value)}</div>
-                      <div class="lbl">${escapeHtml(s.label)}</div>
-                    </div>
-                  `).join('')}
-                </div>
-              ` : ''}
-              ${t.note ? `<div class="typhoon-note">${escapeHtml(t.note)}</div>` : ''}
-            </div>
+            <p class="lead">${escapeHtml(D.typhoon.brief)}</p>
           </section>
         `;
       }
 
-      // 3. 交通行程（去程一波三折 + 返程）
+      // 3. 交通行程（纯时间轴：去程 / 返程）
       function renderTransports() {
         const tr = D.transports;
         if (!tr) return '';
@@ -972,14 +987,15 @@
       }
 
       // 8. 留言板（替换原「下次再去」愿望清单）
-      // 8. 留言：统一用 Giscus（存 GitHub Discussions，人人可见、永久保存）
+      // 8. 留言：Twikoo 匿名评论（存服务端，游客可留昵称/邮箱，人人可见）
       function renderGuestbook() {
         return `
           <section id="guestbook">
             <div class="sec-head"><span class="kicker">言</span><h2 class="section-title">留言墙</h2></div>
             <p class="lead" style="margin-bottom:1.5rem">来过的朋友，留句话再走。</p>
-            <div class="giscus-wrap">
-              <div class="giscus" id="giscus-thread"></div>
+            <!-- Twikoo 匿名评论：数据存服务端（MongoDB），所有访客可见 -->
+            <div class="twikoo-wrap">
+              <div id="twikoo"></div>
             </div>
           </section>
         `;
@@ -1068,34 +1084,39 @@
         app.querySelectorAll('section:not(.hero), .karesansui').forEach(s => s.classList.add('reveal'));
 
         bindLightbox();
-        bindGiscus();
+        bindTwikoo();
         bindBackTop();
         bindNavHighlight();
         bindReveal();
         initTripMap();
       }
 
-      // Giscus 多人评论：动态创建 <script>（等价于静态 <script> 标签，适配本站 JS 渲染结构）
-      function bindGiscus() {
-        const el = document.getElementById('giscus-thread');
+      // 留言板：Twikoo 匿名评论（数据存服务端 MongoDB，所有访客可见）
+      // ⚠️ 部署好 Twikoo 后端后，把「环境地址（envId）」填到下面这个常量里即可
+      const TWIKOO_ENV_ID = '';
+
+      function bindTwikoo() {
+        const el = document.getElementById('twikoo');
         if (!el || el.dataset.loaded) return;
         el.dataset.loaded = '1';
+
+        if (!TWIKOO_ENV_ID) {
+          el.innerHTML = '<p style="color:var(--text-muted);font-size:0.82rem;text-align:center">评论系统正在接入中，稍后再来～</p>';
+          return;
+        }
         const s = document.createElement('script');
-        s.src = 'https://giscus.app/client.js';
+        s.src = 'https://cdn.jsdelivr.net/npm/twikoo@1/dist/twikoo.min.js';
         s.async = true;
-        s.crossOrigin = 'anonymous';
-        s.setAttribute('data-repo', 'ariyameng/japan-trip-recap');
-        s.setAttribute('data-repo-id', 'R_kgDOUTVyqA');
-        s.setAttribute('data-category', 'Announcements');
-        s.setAttribute('data-category-id', 'DIC_kwDOUTVyqM4DFR9m');
-        s.setAttribute('data-mapping', 'pathname');
-        s.setAttribute('data-strict', '0');
-        s.setAttribute('data-reactions-enabled', '1');
-        s.setAttribute('data-emit-metadata', '0');
-        s.setAttribute('data-input-position', 'bottom');
-        s.setAttribute('data-theme', 'preferred_color_scheme');
-        s.setAttribute('data-lang', 'zh-CN');
-        el.appendChild(s);
+        s.onload = function () {
+          if (typeof twikoo === 'undefined') return;
+          twikoo.init({
+            envId: TWIKOO_ENV_ID,
+            el: '#twikoo',
+            lang: 'zh-CN',
+            path: window.location.pathname
+          });
+        };
+        document.head.appendChild(s);
       }
 
       function bindBackTop() {
@@ -1195,26 +1216,45 @@
 
       function drawTripMap(el) {
         const map = L.map(el, { scrollWheelZoom: false }).setView([35.3, 137.5], 6);
-        // OpenStreetMap 官方瓦片；瓦片失败时用透明底图避免裂图
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 18,
-          subdomains: 'abc',
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> 贡献者',
-          errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+        const TRANSPARENT = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+        // 底图：CARTO Light（基于 OSM 数据、国内可访问，极简白底贴合日式留白）
+        const carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+          maxZoom: 19,
+          subdomains: 'abcd',
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          errorTileUrl: TRANSPARENT
         }).addTo(map);
 
+        // 备用瓦片：CARTO 大面积失败时自动切到高德栅格
+        let tileErrors = 0;
+        let switched = false;
+        carto.on('tileerror', function () {
+          tileErrors++;
+          if (tileErrors >= 8 && !switched) {
+            switched = true;
+            map.removeLayer(carto);
+            L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
+              maxZoom: 18,
+              subdomains: '1234',
+              attribution: '&copy; 高德地图',
+              errorTileUrl: TRANSPARENT
+            }).addTo(map);
+          }
+        });
+
+        // 自己解析 KML：点 → 朱红圆点（彻底不用默认图片图标，故不会有破图/错乱文字）；线 → 朱红细线
         fetch('JAPAN%20TRIP.kml')
           .then(function (r) {
             if (!r.ok) throw new Error('HTTP ' + r.status);
             return r.text();
           })
           .then(function (txt) {
-            if (typeof L.KML !== 'function') throw new Error('KML plugin missing');
             const doc = new DOMParser().parseFromString(txt, 'text/xml');
-            const track = new L.KML(doc);
-            map.addLayer(track);
-            styleKml(track);
-            const b = track.getBounds();
+            if (doc.getElementsByTagName('parsererror').length) throw new Error('KML parse error');
+            const group = buildKmlLayer(doc);
+            group.addTo(map);
+            const b = group.getBounds();
             if (b && b.isValid()) map.fitBounds(b, { padding: [24, 24] });
             // reveal 淡入期间容器尺寸可能未稳定，初始化后再修正一次
             setTimeout(function () { map.invalidateSize(); }, 200);
@@ -1224,28 +1264,60 @@
           });
       }
 
-      // 极简风：KML 的点标记改为朱红圆点（去重避免堆叠），路线改为朱红细线
-      function styleKml(track) {
+      // KML 坐标是 "经度,纬度[,高度]"，转成 Leaflet 的 [纬度, 经度]
+      function parseKmlCoord(str) {
+        if (!str) return null;
+        const parts = String(str).trim().split(',');
+        if (parts.length < 2) return null;
+        const lng = parseFloat(parts[0]);
+        const lat = parseFloat(parts[1]);
+        if (!isFinite(lat) || !isFinite(lng)) return null;
+        return [lat, lng];
+      }
+
+      // 解析 KML：CircleMarker 圆点 + Polyline 路线，名称改为 hover/点击才显示的 tooltip
+      function buildKmlLayer(doc) {
+        const group = L.featureGroup();
         const seen = {};
-        const layers = (track.getLayers ? track.getLayers() : []).slice();
-        layers.forEach(function (layer) {
-          if (layer instanceof L.Marker) {
-            const ll = layer.getLatLng();
-            const key = ll.lat.toFixed(4) + ',' + ll.lng.toFixed(4);
-            const popup = layer.getPopup() ? layer.getPopup().getContent() : null;
-            track.removeLayer(layer);
-            if (seen[key]) return;   // 同一地点在 KML 中反复出现，去重保持画面干净
-            seen[key] = true;
-            const dot = L.circleMarker(ll, {
-              radius: 5, color: '#FFFFFF', weight: 1.5,
-              fillColor: '#BC002D', fillOpacity: 0.9
-            });
-            if (popup) dot.bindPopup(popup);
-            dot.addTo(track);
-          } else if (layer.setStyle) {
-            layer.setStyle({ color: '#BC002D', weight: 2, opacity: 0.55 });
+        const placemarks = doc.getElementsByTagName('Placemark');
+        for (let i = 0; i < placemarks.length; i++) {
+          const pm = placemarks[i];
+          const nameEl = pm.getElementsByTagName('name')[0];
+          const name = nameEl ? (nameEl.textContent || '').trim() : '';
+
+          // 点 → 圆点
+          const pointEl = pm.getElementsByTagName('Point')[0];
+          const pointCoord = pointEl ? pointEl.getElementsByTagName('coordinates')[0] : null;
+          if (pointCoord) {
+            const ll = parseKmlCoord(pointCoord.textContent);
+            if (ll) {
+              const key = ll[0].toFixed(4) + ',' + ll[1].toFixed(4);
+              if (!seen[key]) {
+                seen[key] = true;   // KML 里同一地点在多个路线分组中重复出现，去重保持画面干净
+                const dot = L.circleMarker(ll, {
+                  radius: 4.5, color: '#FFFFFF', weight: 1,
+                  fillColor: '#BC002D', fillOpacity: 1
+                });
+                if (name) {
+                  dot.bindTooltip(name, { direction: 'top', offset: [0, -6] });
+                  dot.bindPopup(name);
+                }
+                group.addLayer(dot);
+              }
+            }
           }
-        });
+
+          // 线 → 路线
+          const lineEl = pm.getElementsByTagName('LineString')[0];
+          const lineCoord = lineEl ? lineEl.getElementsByTagName('coordinates')[0] : null;
+          if (lineCoord) {
+            const pts = String(lineCoord.textContent || '').trim().split(/\s+/).map(parseKmlCoord).filter(Boolean);
+            if (pts.length > 1) {
+              group.addLayer(L.polyline(pts, { color: '#BC002D', weight: 1.5, opacity: 0.45 }));
+            }
+          }
+        }
+        return group;
       }
 
       // 等待数据加载完成
