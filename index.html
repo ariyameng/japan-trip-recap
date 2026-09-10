@@ -20,6 +20,11 @@
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@500;600;700&display=swap" />
 
+  <!-- Leaflet + Leaflet-KML 插件（jsDelivr CDN） -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/windycom/leaflet-kml@master/L.KML.js"></script>
+
   <style>
     /* ============================================================
      *  设计系统：纯白底 · 极简 · 日式留白
@@ -50,7 +55,11 @@
 
     body {
       margin: 0;
-      background: var(--bg);
+      background-color: var(--bg);
+      /* 极淡青海波（Seigaiha）和风纹理：opacity 0.03，仅提供纸张质感，不影响阅读 */
+      background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20width%3D'40'%20height%3D'20'%20viewBox%3D'0%200%2040%2020'%3E%3Cg%20fill%3D'none'%20stroke%3D'%231A1A1A'%20stroke-width%3D'1'%20opacity%3D'0.03'%3E%3Cpath%20d%3D%22M-40%2020%20a20%2020%200%200%201%2040%200%22%2F%3E%3Cpath%20d%3D%22M-34%2020%20a14%2014%200%200%201%2028%200%22%2F%3E%3Cpath%20d%3D%22M-28%2020%20a8%208%200%200%201%2016%200%22%2F%3E%3Cpath%20d%3D%22M-20%2020%20a20%2020%200%200%201%2040%200%22%2F%3E%3Cpath%20d%3D%22M-14%2020%20a14%2014%200%200%201%2028%200%22%2F%3E%3Cpath%20d%3D%22M-8%2020%20a8%208%200%200%201%2016%200%22%2F%3E%3Cpath%20d%3D%22M0%2020%20a20%2020%200%200%201%2040%200%22%2F%3E%3Cpath%20d%3D%22M6%2020%20a14%2014%200%200%201%2028%200%22%2F%3E%3Cpath%20d%3D%22M12%2020%20a8%208%200%200%201%2016%200%22%2F%3E%3Cpath%20d%3D%22M20%2020%20a20%2020%200%200%201%2040%200%22%2F%3E%3Cpath%20d%3D%22M26%2020%20a14%2014%200%200%201%2028%200%22%2F%3E%3Cpath%20d%3D%22M32%2020%20a8%208%200%200%201%2016%200%22%2F%3E%3Cpath%20d%3D%22M-30%2010%20a20%2020%200%200%201%2040%200%22%2F%3E%3Cpath%20d%3D%22M-24%2010%20a14%2014%200%200%201%2028%200%22%2F%3E%3Cpath%20d%3D%22M-18%2010%20a8%208%200%200%201%2016%200%22%2F%3E%3Cpath%20d%3D%22M-10%2010%20a20%2020%200%200%201%2040%200%22%2F%3E%3Cpath%20d%3D%22M-4%2010%20a14%2014%200%200%201%2028%200%22%2F%3E%3Cpath%20d%3D%22M2%2010%20a8%208%200%200%201%2016%200%22%2F%3E%3Cpath%20d%3D%22M10%2010%20a20%2020%200%200%201%2040%200%22%2F%3E%3Cpath%20d%3D%22M16%2010%20a14%2014%200%200%201%2028%200%22%2F%3E%3Cpath%20d%3D%22M22%2010%20a8%208%200%200%201%2016%200%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+      background-repeat: repeat;
+      background-attachment: fixed;
       color: var(--text);
       font-family: var(--font-sans);
       font-weight: 400;
@@ -68,15 +77,16 @@
     main#app {
       max-width: var(--max-width);
       margin: 0 auto;
-      background: var(--bg);
+      background: transparent;
     }
 
-    /* —— 区块：大留白 + 细线分隔（不用色块）—— */
+    /* —— 区块：大留白；顶层章节之间用“枯山水”弧线分隔（见 .karesansui）—— */
     section {
       padding: var(--section-padding);
-      border-top: 1px solid var(--line);
     }
-    section:first-of-type { border-top: none; }
+    /* 日记内部子章节保留细线分隔 */
+    #diary section { border-top: 1px solid var(--line); }
+    #diary section:first-of-type { border-top: none; }
 
     /* —— 排版 —— */
     h1 {
@@ -111,6 +121,22 @@
       line-height: 1;
     }
     .lead { color: var(--text-muted); font-size: 0.95rem; }
+
+    /* —— 朱红小印章：日记每篇末尾的视觉点缀（22px 方印，微圆角，白字）—— */
+    .day-seal {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px; border-radius: 3px;
+      background: var(--accent); color: #fff;
+      font-family: var(--font-serif); font-weight: 700; font-size: 0.78rem;
+      line-height: 1; margin-top: 1.2rem;
+    }
+
+    /* —— 枯山水分隔：替代水平分割线，作段落间的呼吸停顿 —— */
+    .karesansui {
+      display: flex; justify-content: center;
+      padding: 0; margin: 0; line-height: 0;
+    }
+    .karesansui svg { display: block; width: 200px; height: 36px; }
 
     .empty {
       text-align: center;
@@ -271,8 +297,28 @@
     }
     .stay-link:hover { color: var(--accent); }
 
-    /* —— 足迹地图 —— */
-    .footmap iframe { width: 100%; height: 400px; border: 1px solid var(--line); border-radius: 4px; }
+    /* —— 足迹地图（Leaflet + OpenStreetMap） —— */
+    .footmap #trip-map {
+      width: 100%; height: 400px;
+      border: 1px solid var(--line); border-radius: 0;
+      background: #fff;
+      box-shadow: none;
+    }
+    /* 地图加载失败时的降级提示 */
+    .footmap .map-fallback {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; padding: 1.5rem; text-align: center;
+      font-size: 0.82rem; color: var(--text-muted); line-height: 1.9;
+    }
+    /* 极简风格：弱化 Leaflet 控件描边，贴合白底灰线 */
+    .footmap .leaflet-bar a {
+      border-color: var(--line); color: var(--text);
+      background: #fff;
+    }
+    .footmap .leaflet-bar a:hover { background: var(--accent-soft); color: var(--accent); }
+    .footmap .leaflet-popup-content-wrapper,
+    .footmap .leaflet-popup-tip { border-radius: 4px; }
+    .footmap .leaflet-popup-content { font-family: var(--font-sans); font-size: 0.85rem; margin: 0.6rem 0.9rem; }
     .coord-list {
       list-style: none; padding: 0; margin: 1.5rem 0 0;
       display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.25rem;
@@ -336,6 +382,35 @@
       font-size: 0.7rem; color: var(--text-muted);
       border: 1px solid var(--line); border-radius: 4px; padding: 0.1rem 0.45rem;
     }
+    /* —— 日记新版结构：项目 / 地点 / 感受 —— */
+    .day-sec { margin-top: 1.1rem; }
+    .day-sec:first-child { margin-top: 0; }
+    .day-sec-h {
+      font-size: 0.8rem; font-weight: 600; color: var(--text);
+      border-left: 2px solid var(--accent); padding-left: 0.5rem;
+      margin-bottom: 0.5rem; letter-spacing: 0.04em;
+    }
+    .day-list { list-style: none; margin: 0; padding: 0; }
+    .day-list li {
+      position: relative; padding-left: 1rem; margin: 0.35rem 0;
+      font-size: 0.92rem; line-height: 1.7;
+    }
+    .day-list li::before {
+      content: ''; position: absolute; left: 0; top: 0.7em;
+      width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+    }
+    .place-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .place-tag {
+      font-size: 0.78rem; color: var(--text);
+      border: 1px solid var(--line); border-radius: 999px;
+      padding: 0.2rem 0.75rem; background: #fff;
+    }
+    .day-feel {
+      margin: 0; padding: 0.9rem 1.1rem;
+      border-left: 3px solid var(--accent); border-radius: 0 4px 4px 0;
+      background: var(--accent-soft);
+      font-style: italic; font-size: 0.92rem; line-height: 1.85; color: var(--text);
+    }
 
     /* —— 手信 —— */
     .souv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
@@ -371,8 +446,6 @@
     .gb-card .gb-name { font-family: var(--font-serif); font-weight: 600; font-size: 0.95rem; }
     .gb-card .gb-date { font-size: 0.7rem; color: var(--text-muted); }
     .gb-card .gb-text { font-size: 0.9rem; line-height: 1.8; color: var(--text); margin-top: 0.4rem; white-space: pre-wrap; word-break: break-word; }
-    .giscus-wrap { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
-    .giscus-hint { text-align: center; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem; }
 
     /* —— 结尾 —— */
     .ending { text-align: center; }
@@ -729,19 +802,31 @@
       // 5. 每日回忆
       function renderDays() {
         const days = D.days || [];
+        const prologue = days.filter(d => d.phase === 'prologue');
+        const japan = days.filter(d => d.phase !== 'prologue');
+        const prologueHtml = prologue.length ? `
+          <section id="diary-prologue">
+            <div class="sec-head"><span class="kicker">序</span><h2 class="section-title">序章 · 出发篇</h2></div>
+            ${prologue.map(d => renderDayCard(d)).join('')}
+          </section>` : '';
+        const japanHtml = japan.length ? `
+          <section id="diary-japan">
+            <div class="sec-head"><span class="kicker">记</span><h2 class="section-title">日本篇</h2></div>
+            ${japan.map(d => renderDayCard(d)).join('')}
+          </section>` : '';
         return `
-          <section id="diary">
-            <div class="sec-head"><span class="kicker">记</span><h2 class="section-title">在日本的那些天</h2></div>
-            ${days.length === 0
-              ? `<p class="empty">慢慢回忆，慢慢填。<br>想起哪天加哪天就行。</p>`
-              : `<div>${days.map(d => renderDayCard(d)).join('')}</div>`
-            }
-          </section>
+          <div id="diary">
+            ${prologueHtml}
+            ${japanHtml}
+          </div>
         `;
       }
 
+      // 印章汉字：按日记轮转，仅作极小的朱红点缀
+      const SEAL_CHARS = ['旅', '日', '记', '行'];
+
       function renderDayCard(d) {
-        const spots = d.spots || [];
+        const isNew = Array.isArray(d.projects) || Array.isArray(d.places) || typeof d.feeling === 'string';
         const rides = d.rides || [];
         const ridesHtml = rides.length > 0 ? `
           <div class="ride-grid">
@@ -757,38 +842,80 @@
             `).join('')}
           </div>
         ` : '';
+        const spots = d.spots || [];
+        const spotsHtml = spots.length > 0 ? `
+          <div class="spot-tags">
+            ${spots.map(s => `
+              <a href="${mapsUrl(s, d.city)}" target="_blank" rel="noopener">📍 ${escapeHtml(s)}</a>
+            `).join('')}
+          </div>
+        ` : '';
+
+        // 头部：序章 / 新版（含标题）/ 旧版 三种形态
+        let badge, titleLine, subLine;
+        if (d.phase === 'prologue') {
+          badge = `<span class="day-badge">序</span>`;
+          titleLine = `<div class="day-title">${escapeHtml(d.title || d.cityLabel || '')}</div>`;
+          subLine = `<div class="day-sub">${escapeHtml(d.dateLabel || '')}${d.cityLabel ? ' · ' + escapeHtml(d.cityLabel) : ''}</div>`;
+        } else if (d.title) {
+          badge = `<span class="day-badge">${escapeHtml(d.day)}</span>`;
+          titleLine = `<div class="day-title">${escapeHtml(d.title)}</div>`;
+          subLine = `<div class="day-sub">${escapeHtml(dayDate(d.day))}${d.city ? ' · ' + escapeHtml(d.city) : ''}</div>`;
+        } else {
+          badge = `<span class="day-badge">${escapeHtml(d.day)}</span>`;
+          titleLine = `<div class="day-title">${escapeHtml(d.city || '')}</div>`;
+          subLine = `<div class="day-sub">${escapeHtml(dayDate(d.day))}${d.mood ? ' · ' + escapeHtml(d.mood) : ''} ${escapeHtml(d.moodEmoji || '')}</div>`;
+        }
+
+        // 正文：新版结构化（项目 / 地点 / 感受）或旧版 story 兜底
+        let bodyInner;
+        if (isNew) {
+          const proj = (d.projects || []).map(p => `<li>${escapeHtml(p)}</li>`).join('');
+          const plc = (d.places || []).map(p => `<span class="place-tag">${escapeHtml(p)}</span>`).join('');
+          const photos = (d.photos && d.photos.length) ? `
+            <div class="photo-grid">
+              ${d.photos.map(p => `
+                <figure>
+                  <img src="${escapeHtml(p)}" alt="旅行回忆照片" loading="lazy" class="day-photo" />
+                  <figcaption class="photo-cap"></figcaption>
+                </figure>
+              `).join('')}
+            </div>` : '';
+          bodyInner = `
+            ${proj ? `<div class="day-sec"><div class="day-sec-h">【项目】</div><ul class="day-list">${proj}</ul></div>` : ''}
+            ${plc ? `<div class="day-sec"><div class="day-sec-h">【地点】</div><div class="place-tags">${plc}</div></div>` : ''}
+            ${photos}
+            ${ridesHtml}
+            ${d.feeling ? `<div class="day-sec"><div class="day-sec-h">【感受】</div><blockquote class="day-feel">${escapeHtml(d.feeling)}</blockquote></div>` : ''}
+          `;
+        } else {
+          const photos = (d.photos && d.photos.length) ? `
+            <div class="photo-grid">
+              ${d.photos.map(p => `
+                <figure>
+                  <img src="${escapeHtml(p)}" alt="旅行回忆照片" loading="lazy" class="day-photo" />
+                  <figcaption class="photo-cap"></figcaption>
+                </figure>
+              `).join('')}
+            </div>` : '';
+          bodyInner = `<p>${escapeHtml(d.story || '')}</p>${photos}${ridesHtml}${spotsHtml}`;
+        }
+
+        // 朱红小印章：日记每篇末尾的视觉点缀（序章用「行」，日本篇按 旅/日/记/行 循环）
+        const sealChar = d.phase === 'prologue'
+          ? '行'
+          : SEAL_CHARS[((d.day || 1) - 1) % SEAL_CHARS.length];
+        const sealHtml = `<div class="day-seal" aria-hidden="true">${sealChar}</div>`;
+
+        const open = d.expanded ? ' open' : '';
         return `
-          <details class="day-card">
+          <details class="day-card${open}">
             <summary>
-              <span class="day-badge">${d.day}</span>
-              <span>
-                <div class="day-title">${escapeHtml(d.city || '')}</div>
-                <div class="day-sub">${escapeHtml(dayDate(d.day))}${d.mood ? ' · ' + escapeHtml(d.mood) : ''} ${escapeHtml(d.moodEmoji || '')}</div>
-              </span>
+              ${badge}
+              <span>${titleLine}${subLine}</span>
               <span class="chev">⌄</span>
             </summary>
-            <div class="day-body">
-              <p>${escapeHtml(d.story || '')}</p>
-              ${d.photos && d.photos.length > 0 ? `
-                <!-- 后续配图建议：统一 WebP 格式、800x600、加 loading="lazy" 懒加载 -->
-                <div class="photo-grid">
-                  ${d.photos.map(p => `
-                    <figure>
-                      <img src="${escapeHtml(p)}" alt="旅行回忆照片" loading="lazy" class="day-photo" />
-                      <figcaption class="photo-cap"></figcaption>
-                    </figure>
-                  `).join('')}
-                </div>
-              ` : ''}
-              ${ridesHtml}
-              ${spots.length > 0 ? `
-                <div class="spot-tags">
-                  ${spots.map(s => `
-                    <a href="${mapsUrl(s, d.city)}" target="_blank" rel="noopener">📍 ${escapeHtml(s)}</a>
-                  `).join('')}
-                </div>
-              ` : ''}
-            </div>
+            <div class="day-body">${bodyInner}${sealHtml}</div>
           </details>
         `;
       }
@@ -871,11 +998,6 @@
               ${renderGuestbookCards(seed, loadGuestbookState())}
             </div>
 
-            <!-- Giscus 多人评论（需在 GitHub 仓库安装 Giscus App 并开启 Discussions；repo-id/category-id 在 Giscus 安装页获取后填入） -->
-            <div class="giscus-wrap">
-              <div class="giscus-hint">或用下方评论区留言（需先开启 GitHub Discussions）</div>
-              <div class="giscus" id="giscus-thread"></div>
-            </div>
           </section>
         `;
       }
@@ -924,15 +1046,12 @@
           { name: '东京', en: 'Tokyo',    coord: '35.6762° N, 139.6503° E' },
           { name: '镰仓', en: 'Kamakura', coord: '35.3196° N, 139.5469° E' },
         ];
-        const amp = '&';
-        const mapSrc = 'https://maps.google.com/maps?q=' +
-          encodeURIComponent('大阪 京都 东京 镰仓 日本') + amp + 'z=6' + amp + 'output=embed';
         return `
           <section id="footmap">
             <div class="sec-head"><span class="kicker">图</span><h2 class="section-title">足迹地图</h2></div>
-            <div>
-              <iframe src="${mapSrc}" title="日本旅行足迹地图：大阪 → 京都 → 东京 → 镰仓"
-                      loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            <div class="footmap">
+              <div id="trip-map" role="img" aria-label="日本旅行足迹地图：大阪 · 京都 · 东京 · 镰仓"></div>
+              <p class="hint">地图中的路线为旅行足迹示意，实际交通方式以日本电车（JR/地铁）为主。</p>
             </div>
             <ul class="coord-list">
               ${cities.map(c => `
@@ -942,7 +1061,6 @@
                 </li>
               `).join('')}
             </ul>
-            <p class="hint">提示：把上面 iframe 的 src 替换成你自己的 Google My Maps 嵌入链接，即可展示自定义路线。</p>
           </section>
         `;
       }
@@ -961,6 +1079,15 @@
       /* ============================================================
        *  渲染启动 + 事件绑定
        * ============================================================ */
+      // 枯山水：两条极纤细同心弧，作章节之间的呼吸停顿（替代水平分割线）
+      const KARESANSUI = `
+        <div class="karesansui" aria-hidden="true">
+          <svg viewBox="0 0 200 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M40 29 C72 10, 128 10, 160 29" stroke="#E8E8E8" stroke-width="1" stroke-linecap="round"/>
+            <path d="M57 30 C80 16, 120 16, 143 30" stroke="#E8E8E8" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>`;
+
       function render() {
         app.innerHTML = [
           renderHero(),
@@ -974,39 +1101,17 @@
           renderGuestbook(),
           renderEnding(),
           renderFooter(),
-        ].join('');
+        ].join(KARESANSUI);
 
-        // 给非 hero 区块注入滚动淡入
-        app.querySelectorAll('section:not(.hero)').forEach(s => s.classList.add('reveal'));
+        // 给非 hero 区块与枯山水分隔注入滚动淡入
+        app.querySelectorAll('section:not(.hero), .karesansui').forEach(s => s.classList.add('reveal'));
 
         bindGuestbook();
         bindLightbox();
-        bindGiscus();
         bindBackTop();
         bindNavHighlight();
         bindReveal();
-      }
-
-      function bindGiscus() {
-        const el = document.getElementById('giscus-thread');
-        if (!el || el.dataset.loaded) return;
-        el.dataset.loaded = '1';
-        const s = document.createElement('script');
-        s.src = 'https://giscus.app/client.js';
-        s.async = true;
-        s.crossOrigin = 'anonymous';
-        s.setAttribute('data-repo', 'ariyameng/japan-trip-recap');
-        s.setAttribute('data-repo-id', '');
-        s.setAttribute('data-category', 'Announcements');
-        s.setAttribute('data-category-id', '');
-        s.setAttribute('data-mapping', 'pathname');
-        s.setAttribute('data-strict', '0');
-        s.setAttribute('data-reactions-enabled', '1');
-        s.setAttribute('data-emit-metadata', '0');
-        s.setAttribute('data-input-position', 'bottom');
-        s.setAttribute('data-theme', 'light');
-        s.setAttribute('data-lang', 'zh-CN');
-        el.appendChild(s);
+        initTripMap();
       }
 
       function bindBackTop() {
@@ -1089,7 +1194,7 @@
 
       // 滚动淡入：给非 hero 区块注入 .reveal 后观察
       function bindReveal() {
-        const els = [].slice.call(app.querySelectorAll('section.reveal'));
+        const els = [].slice.call(app.querySelectorAll('section.reveal, .karesansui.reveal'));
         if (!els.length) return;
         if (!('IntersectionObserver' in window)) {
           els.forEach(e => e.classList.add('is-visible'));
@@ -1104,6 +1209,91 @@
           });
         }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
         els.forEach(e => obs.observe(e));
+      }
+
+      // 足迹地图：Leaflet + OpenStreetMap 交互式地图
+      function initTripMap() {
+        const el = document.getElementById('trip-map');
+        if (!el || el.dataset.inited) return;
+        el.dataset.inited = '1';
+
+        // jsDelivr 不可达时的兜底：改用 BootCDN 再加载一次
+        whenLeafletReady(function () {
+          if (typeof L === 'undefined') {
+            el.innerHTML = '<div class="map-fallback">地图组件加载失败（Leaflet CDN 不可达），请检查网络后刷新。</div>';
+            return;
+          }
+          drawTripMap(el);
+        });
+      }
+
+      // 确保 Leaflet 就绪；若 jsdelivr 失败则回退 BootCDN
+      function whenLeafletReady(cb) {
+        if (typeof L !== 'undefined') { cb(); return; }
+        const css = document.createElement('link');
+        css.rel = 'stylesheet';
+        css.href = 'https://cdn.bootcdn.net/ajax/libs/leaflet/1.9.4/leaflet.css';
+        document.head.appendChild(css);
+        const s = document.createElement('script');
+        s.src = 'https://cdn.bootcdn.net/ajax/libs/leaflet/1.9.4/leaflet.js';
+        s.onload = cb;
+        s.onerror = cb;
+        document.head.appendChild(s);
+      }
+
+      function drawTripMap(el) {
+        const map = L.map(el, { scrollWheelZoom: false }).setView([35.3, 137.5], 6);
+        // OpenStreetMap 官方瓦片；瓦片失败时用透明底图避免裂图
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+          subdomains: 'abc',
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> 贡献者',
+          errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+        }).addTo(map);
+
+        fetch('JAPAN%20TRIP.kml')
+          .then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return r.text();
+          })
+          .then(function (txt) {
+            if (typeof L.KML !== 'function') throw new Error('KML plugin missing');
+            const doc = new DOMParser().parseFromString(txt, 'text/xml');
+            const track = new L.KML(doc);
+            map.addLayer(track);
+            styleKml(track);
+            const b = track.getBounds();
+            if (b && b.isValid()) map.fitBounds(b, { padding: [24, 24] });
+            // reveal 淡入期间容器尺寸可能未稳定，初始化后再修正一次
+            setTimeout(function () { map.invalidateSize(); }, 200);
+          })
+          .catch(function () {
+            el.innerHTML = '<div class="map-fallback">足迹路线（JAPAN TRIP.kml）加载失败。<br>请通过本地服务器或已部署的网址打开——直接双击 file:// 打开时，浏览器会拦截读取本地文件。</div>';
+          });
+      }
+
+      // 极简风：KML 的点标记改为朱红圆点（去重避免堆叠），路线改为朱红细线
+      function styleKml(track) {
+        const seen = {};
+        const layers = (track.getLayers ? track.getLayers() : []).slice();
+        layers.forEach(function (layer) {
+          if (layer instanceof L.Marker) {
+            const ll = layer.getLatLng();
+            const key = ll.lat.toFixed(4) + ',' + ll.lng.toFixed(4);
+            const popup = layer.getPopup() ? layer.getPopup().getContent() : null;
+            track.removeLayer(layer);
+            if (seen[key]) return;   // 同一地点在 KML 中反复出现，去重保持画面干净
+            seen[key] = true;
+            const dot = L.circleMarker(ll, {
+              radius: 5, color: '#FFFFFF', weight: 1.5,
+              fillColor: '#BC002D', fillOpacity: 0.9
+            });
+            if (popup) dot.bindPopup(popup);
+            dot.addTo(track);
+          } else if (layer.setStyle) {
+            layer.setStyle({ color: '#BC002D', weight: 2, opacity: 0.55 });
+          }
+        });
       }
 
       // 等待数据加载完成
