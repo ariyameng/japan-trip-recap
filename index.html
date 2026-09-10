@@ -20,10 +20,6 @@
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@500;600;700&display=swap" />
 
-  <!-- Leaflet（jsDelivr CDN） -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
-
   <style>
     /* ============================================================
      *  设计系统：纯白底 · 极简 · 日式留白
@@ -296,34 +292,12 @@
     }
     .stay-link:hover { color: var(--accent); }
 
-    /* —— 足迹地图（Leaflet + OpenStreetMap） —— */
-    .footmap #trip-map {
-      width: 100%; height: 400px;
+    /* —— 足迹地图（静态路线图：不依赖任何瓦片/CDN，国内必加载） —— */
+    .footmap .route-img {
+      display: block; width: 100%; height: auto;
       border: 1px solid var(--line); border-radius: 0;
-      background: #fff;
-      box-shadow: none;
+      box-shadow: none; background: #fff;
     }
-    /* 地图加载失败时的降级提示 */
-    .footmap .map-fallback {
-      display: flex; align-items: center; justify-content: center;
-      height: 100%; padding: 1.5rem; text-align: center;
-      font-size: 0.82rem; color: var(--text-muted); line-height: 1.9;
-    }
-    /* 地图 tooltip：hover/点击才出现，白底发丝线，无阴影无箭头 */
-    .footmap .leaflet-tooltip {
-      background: #fff; border: 1px solid var(--line); border-radius: 0;
-      box-shadow: none; color: var(--text);
-      font-family: var(--font-sans); font-size: 0.78rem; padding: 0.2rem 0.5rem;
-    }
-    .footmap .leaflet-tooltip:before { display: none; }
-    .footmap .leaflet-bar a {
-      border-color: var(--line); color: var(--text);
-      background: #fff;
-    }
-    .footmap .leaflet-bar a:hover { background: var(--accent-soft); color: var(--accent); }
-    .footmap .leaflet-popup-content-wrapper,
-    .footmap .leaflet-popup-tip { border-radius: 4px; }
-    .footmap .leaflet-popup-content { font-family: var(--font-sans); font-size: 0.85rem; margin: 0.6rem 0.9rem; }
     .coord-list {
       list-style: none; padding: 0; margin: 1.5rem 0 0;
       display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.25rem;
@@ -507,7 +481,6 @@
       :root { --section-padding: 64px 20px; }
       .typhoon-stats { grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1rem; }
       .photo-grid { grid-template-columns: 1fr; }
-      .footmap #trip-map { height: 320px; }
       .souv-grid { grid-template-columns: 1fr; }
     }
   </style>
@@ -968,7 +941,7 @@
         `;
       }
 
-      // 10. 足迹地图（Google Maps 嵌入 + 城市坐标）
+      // 10. 足迹地图（静态路线图 + 城市坐标）
       function renderFootMap() {
         const cities = [
           { name: '大阪', en: 'Osaka',    coord: '34.6937° N, 135.5023° E' },
@@ -980,7 +953,9 @@
           <section id="footmap">
             <div class="sec-head"><span class="kicker">图</span><h2 class="section-title">足迹地图</h2></div>
             <div class="footmap">
-              <div id="trip-map" role="img" aria-label="日本旅行足迹地图：大阪 · 京都 · 东京 · 镰仓"></div>
+              <img class="route-img" src="japan-route.png"
+                   alt="日本旅行足迹路线示意图：大阪 → 京都 → 东京 → 镰仓"
+                   width="1193" height="566" loading="lazy" decoding="async" />
               <p class="hint">地图中的路线为旅行足迹示意，实际交通方式以日本电车（JR/地铁）为主。</p>
             </div>
             <ul class="coord-list">
@@ -1039,7 +1014,6 @@
         bindBackTop();
         bindNavHighlight();
         bindReveal();
-        initTripMap();
       }
 
       function bindBackTop() {
@@ -1105,142 +1079,6 @@
           });
         }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
         els.forEach(e => obs.observe(e));
-      }
-
-      // 足迹地图：Leaflet + OpenStreetMap 交互式地图
-      function initTripMap() {
-        const el = document.getElementById('trip-map');
-        if (!el || el.dataset.inited) return;
-        el.dataset.inited = '1';
-
-        // jsDelivr 不可达时的兜底：改用 BootCDN 再加载一次
-        whenLeafletReady(function () {
-          if (typeof L === 'undefined') {
-            el.innerHTML = '<div class="map-fallback">地图组件加载失败（Leaflet CDN 不可达），请检查网络后刷新。</div>';
-            return;
-          }
-          drawTripMap(el);
-        });
-      }
-
-      // 确保 Leaflet 就绪；若 jsdelivr 失败则回退 BootCDN
-      function whenLeafletReady(cb) {
-        if (typeof L !== 'undefined') { cb(); return; }
-        const css = document.createElement('link');
-        css.rel = 'stylesheet';
-        css.href = 'https://cdn.bootcdn.net/ajax/libs/leaflet/1.9.4/leaflet.css';
-        document.head.appendChild(css);
-        const s = document.createElement('script');
-        s.src = 'https://cdn.bootcdn.net/ajax/libs/leaflet/1.9.4/leaflet.js';
-        s.onload = cb;
-        s.onerror = cb;
-        document.head.appendChild(s);
-      }
-
-      function drawTripMap(el) {
-        const map = L.map(el, { scrollWheelZoom: false }).setView([35.3, 137.5], 6);
-        const TRANSPARENT = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-
-        // 底图：CARTO Light（基于 OSM 数据、国内可访问，极简白底贴合日式留白）
-        const carto = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-          maxZoom: 19,
-          subdomains: 'abcd',
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-          errorTileUrl: TRANSPARENT
-        }).addTo(map);
-
-        // 备用瓦片：CARTO 大面积失败时自动切到高德栅格
-        let tileErrors = 0;
-        let switched = false;
-        carto.on('tileerror', function () {
-          tileErrors++;
-          if (tileErrors >= 8 && !switched) {
-            switched = true;
-            map.removeLayer(carto);
-            L.tileLayer('https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
-              maxZoom: 18,
-              subdomains: '1234',
-              attribution: '&copy; 高德地图',
-              errorTileUrl: TRANSPARENT
-            }).addTo(map);
-          }
-        });
-
-        // 自己解析 KML：点 → 朱红圆点（彻底不用默认图片图标，故不会有破图/错乱文字）；线 → 朱红细线
-        fetch('JAPAN%20TRIP.kml')
-          .then(function (r) {
-            if (!r.ok) throw new Error('HTTP ' + r.status);
-            return r.text();
-          })
-          .then(function (txt) {
-            const doc = new DOMParser().parseFromString(txt, 'text/xml');
-            if (doc.getElementsByTagName('parsererror').length) throw new Error('KML parse error');
-            const group = buildKmlLayer(doc);
-            group.addTo(map);
-            const b = group.getBounds();
-            if (b && b.isValid()) map.fitBounds(b, { padding: [24, 24] });
-            // reveal 淡入期间容器尺寸可能未稳定，初始化后再修正一次
-            setTimeout(function () { map.invalidateSize(); }, 200);
-          })
-          .catch(function () {
-            el.innerHTML = '<div class="map-fallback">足迹路线（JAPAN TRIP.kml）加载失败。<br>请通过本地服务器或已部署的网址打开——直接双击 file:// 打开时，浏览器会拦截读取本地文件。</div>';
-          });
-      }
-
-      // KML 坐标是 "经度,纬度[,高度]"，转成 Leaflet 的 [纬度, 经度]
-      function parseKmlCoord(str) {
-        if (!str) return null;
-        const parts = String(str).trim().split(',');
-        if (parts.length < 2) return null;
-        const lng = parseFloat(parts[0]);
-        const lat = parseFloat(parts[1]);
-        if (!isFinite(lat) || !isFinite(lng)) return null;
-        return [lat, lng];
-      }
-
-      // 解析 KML：CircleMarker 圆点 + Polyline 路线，名称改为 hover/点击才显示的 tooltip
-      function buildKmlLayer(doc) {
-        const group = L.featureGroup();
-        const seen = {};
-        const placemarks = doc.getElementsByTagName('Placemark');
-        for (let i = 0; i < placemarks.length; i++) {
-          const pm = placemarks[i];
-          const nameEl = pm.getElementsByTagName('name')[0];
-          const name = nameEl ? (nameEl.textContent || '').trim() : '';
-
-          // 点 → 圆点
-          const pointEl = pm.getElementsByTagName('Point')[0];
-          const pointCoord = pointEl ? pointEl.getElementsByTagName('coordinates')[0] : null;
-          if (pointCoord) {
-            const ll = parseKmlCoord(pointCoord.textContent);
-            if (ll) {
-              const key = ll[0].toFixed(4) + ',' + ll[1].toFixed(4);
-              if (!seen[key]) {
-                seen[key] = true;   // KML 里同一地点在多个路线分组中重复出现，去重保持画面干净
-                const dot = L.circleMarker(ll, {
-                  radius: 4.5, color: '#FFFFFF', weight: 1,
-                  fillColor: '#BC002D', fillOpacity: 1
-                });
-                if (name) {
-                  dot.bindTooltip(name, { direction: 'top', offset: [0, -6] });
-                  dot.bindPopup(name);
-                }
-                group.addLayer(dot);
-              }
-            }
-          }
-
-          // 线 → 路线
-          const lineEl = pm.getElementsByTagName('LineString')[0];
-          const lineCoord = lineEl ? lineEl.getElementsByTagName('coordinates')[0] : null;
-          if (lineCoord) {
-            const pts = String(lineCoord.textContent || '').trim().split(/\s+/).map(parseKmlCoord).filter(Boolean);
-            if (pts.length > 1) {
-              group.addLayer(L.polyline(pts, { color: '#BC002D', weight: 1.5, opacity: 0.45 }));
-            }
-          }
-        }
-        return group;
       }
 
       // 等待数据加载完成
