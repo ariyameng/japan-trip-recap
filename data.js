@@ -244,7 +244,7 @@ window.TRIP_DATA = {
       ],
       places: ["关西国际机场", "难波", "一兰拉面 道顿堀店", "道顿堀", "心斋桥"],
       feeling: "折腾三天，这一刻的真实感比什么都强。",
-      photos: ["photos/day1-nankai-tickets.jpg", "photos/day1-ichiran.jpg"],
+      photos: ["photos/day1-nankai-tickets.webp", "photos/day1-ichiran.webp"],
       captions: ["南海电铁车票 · 关西机场到难波", "落地第一顿：一兰拉面"]
     },
     {
@@ -261,11 +261,11 @@ window.TRIP_DATA = {
       places: ["堂吉诃德 难波", "うなぎの中庄 难波店", "心斋桥筋商店街", "道顿堀"],
       feeling: "腿是废的，但道顿堀那场日落值回票价。",
       photos: [
-        "photos/day2-unagi.jpg",
-        "photos/day2-unagi-shop.jpg",
-        "photos/day2-shinsaibashi.jpg",
-        "photos/day2-dotonbori-sunset.jpg",
-        "photos/day2-takoyaki.jpg"
+        "photos/day2-unagi.webp",
+        "photos/day2-unagi-shop.webp",
+        "photos/day2-shinsaibashi.webp",
+        "photos/day2-dotonbori-sunset.webp",
+        "photos/day2-takoyaki.webp"
       ],
       captions: [
         "うなぎの中庄 · 鳗鱼三吃",
@@ -289,10 +289,10 @@ window.TRIP_DATA = {
       places: ["阿克罗胶囊旅馆", "大阪城公园", "寿司郎 心斋桥店", "京都河原町格兰斯特酒店"],
       feeling: "大阪翻篇，京都接棒——这一站，是慢下来的开始。",
       photos: [
-        "photos/day3-station.jpg",
-        "photos/day3-osakacastle.jpg",
-        "photos/day3-v50.jpg",
-        "photos/day3-sushiro-kitty.jpg"
+        "photos/day3-station.webp",
+        "photos/day3-osakacastle.webp",
+        "photos/day3-v50.webp",
+        "photos/day3-sushiro-kitty.webp"
       ],
       captions: [
         "站台 · 等一趟去京都的车",
@@ -315,10 +315,10 @@ window.TRIP_DATA = {
       places: ["伏见稻荷大社", "鸭川", "H&M 河原町店"],
       feeling: "计划表里那串名字一个没见着，但意外闯进的小店比景点更难忘。",
       photos: [
-        "photos/day4-fushimi-building.jpg",
-        "photos/day4-fushimi-ema.jpg",
-        "photos/day4-fushimi-mountain.jpg",
-        "photos/day4-kamogawa.jpg"
+        "photos/day4-fushimi-building.webp",
+        "photos/day4-fushimi-ema.webp",
+        "photos/day4-fushimi-mountain.webp",
+        "photos/day4-kamogawa.webp"
       ],
       captions: [
         "伏见稻荷 · 楼门",
@@ -341,13 +341,13 @@ window.TRIP_DATA = {
       places: ["四条河原町", "大原", "三千院", "贵船神社", "睿山电车鞍马线"],
       feeling: "那一天手机没怎么掏出来，都留在眼睛里了。",
       photos: [
-        "photos/day5-sanzenin-lantern.jpg",
-        "photos/day5-sanzenin-garden.jpg",
-        "photos/day5-matsumoto-door.jpg",
-        "photos/day5-matsumoto-interior.jpg",
-        "photos/day5-omikuji.jpg",
-        "photos/day5-kifune-lanterns.jpg",
-        "photos/day5-kifune-shrine.jpg"
+        "photos/day5-sanzenin-lantern.webp",
+        "photos/day5-sanzenin-garden.webp",
+        "photos/day5-matsumoto-door.webp",
+        "photos/day5-matsumoto-interior.webp",
+        "photos/day5-omikuji.webp",
+        "photos/day5-kifune-lanterns.webp",
+        "photos/day5-kifune-shrine.webp"
       ],
       captions: [
         "三千院 · 石灯笼",
@@ -373,10 +373,10 @@ window.TRIP_DATA = {
       places: ["日本环球影城", "大阪梅田", "环球城站"],
       feeling: "起得最早，玩得最疯——这一天超级开心。",
       photos: [
-        "photos/day6-usj-globe.jpg",
-        "photos/day6-hollywood-dream.jpg",
-        "photos/day6-hello-kitty.jpg",
-        "photos/day6-hogwarts.jpg"
+        "photos/day6-usj-globe.webp",
+        "photos/day6-hollywood-dream.webp",
+        "photos/day6-hello-kitty.webp",
+        "photos/day6-hogwarts.webp"
       ],
       captions: [
         "USJ 大地球",
@@ -412,9 +412,9 @@ window.TRIP_DATA = {
       places: ["东京站", "浅草", "一兰拉面 浅草店"],
       feeling: "雨里安顿下来，这一晚很踏实。",
       photos: [
-        "photos/day7-1.jpeg",
-        "photos/day7-2.jpeg",
-        "photos/day7-3.jpeg"
+        "photos/day7-1.webp",
+        "photos/day7-2.webp",
+        "photos/day7-3.webp"
       ],
       captions: [
         "新干线车窗外的东京，雨还没停",
@@ -436,10 +436,10 @@ window.TRIP_DATA = {
       places: ["浅草寺", "秋叶原", "CoCo壱番屋 东武浅草駅前店"],
       feeling: "电器街的霓虹和浅草的香火，是东京的两副面孔。",
       photos: [
-        "photos/day8-1.jpeg",
-        "photos/day8-2.jpeg",
-        "photos/day8-4.jpeg",
-        "photos/day8-5.jpeg"
+        "photos/day8-1.webp",
+        "photos/day8-2.webp",
+        "photos/day8-4.webp",
+        "photos/day8-5.webp"
       ],
       captions: [
         "浅草寺 · 带着燕叽打卡",
@@ -462,13 +462,13 @@ window.TRIP_DATA = {
       places: ["银座", "涩谷", "忠犬八公像", "东京塔", "みのる食堂 三越銀座店"],
       feeling: "三连打卡，腿是散的，但城市的天际线记住了。",
       photos: [
-        "photos/day9-2.jpeg",
-        "photos/day9-3.jpeg",
-        "photos/day9-4.jpeg",
-        "photos/day9-5.jpeg",
-        "photos/day9-6.jpeg",
-        "photos/day9-7.jpeg",
-        "photos/day9-8.jpeg"
+        "photos/day9-2.webp",
+        "photos/day9-3.webp",
+        "photos/day9-4.webp",
+        "photos/day9-5.webp",
+        "photos/day9-6.webp",
+        "photos/day9-7.webp",
+        "photos/day9-8.webp"
       ],
       captions: [
         "银座 · みのる食堂的定食",
@@ -493,11 +493,11 @@ window.TRIP_DATA = {
       places: ["镰仓", "江之岛", "KAMOKOTO KITCHEN", "一兰拉面 浅草店"],
       feeling: "海风一吹，连疲惫都轻了。",
       photos: [
-        "photos/day10-2.jpeg",
-        "photos/day10-3.jpeg",
-        "photos/day10-4.jpeg",
-        "photos/day10-5.jpeg",
-        "photos/day10-6.jpeg"
+        "photos/day10-2.webp",
+        "photos/day10-3.webp",
+        "photos/day10-4.webp",
+        "photos/day10-5.webp",
+        "photos/day10-6.webp"
       ],
       captions: [
         "镰仓 · KAMOKOTO KITCHEN 午餐",
@@ -520,9 +520,9 @@ window.TRIP_DATA = {
       places: ["浅草", "堂吉诃德 浅草", "鰻御食事処 九寅 浅草本店", "鸟贵族 浅草六区店"],
       feeling: "没有什么计划，反而最像旅行。",
       photos: [
-        "photos/day11-2.jpeg",
-        "photos/day11-3.jpeg",
-        "photos/day11-4.jpeg"
+        "photos/day11-2.webp",
+        "photos/day11-3.webp",
+        "photos/day11-4.webp"
       ],
       captions: [
         "鰻御食事処 九寅 · 鳗鱼饭",
@@ -543,8 +543,8 @@ window.TRIP_DATA = {
       places: ["成田机场", "福州长乐"],
       feeling: "从日本飞回国内，胃先一步回了家。",
       photos: [
-        "photos/day12-1.jpeg",
-        "photos/day12-2.jpeg"
+        "photos/day12-1.webp",
+        "photos/day12-2.webp"
       ],
       captions: [
         "成田机场 · 白色恋人",
@@ -588,4 +588,66 @@ window.TRIP_DATA = {
     { name: "三千院神签", city: "京都", type: "御守", note: "100 円抽一次，抽到吉签。图片见 Day 5 相册。" },
     { name: "白色恋人", city: "东京", type: "手信", note: "8/21 在成田机场买的，把最后一点日元都花在了这" }
   ]
+};
+
+/* ============================================================
+ *  图片真实像素表（自动生成，勿手改）
+ * ------------------------------------------------------------
+ *  作用：给 <img> 加 width/height，浏览器提前占位，避免加载时页面抖动
+ *  生成规则：最大宽度 1200px，WebP 质量 80
+ * ============================================================ */
+window.PHOTO_SIZES = {
+  "japan-route.webp": [1193, 566],
+  "photos/_dianping-unagi-namba.webp": [1200, 2670],
+  "photos/day1-acro-hotel.webp": [1200, 2609],
+  "photos/day1-ichiran.webp": [1200, 675],
+  "photos/day1-nankai-tickets.webp": [1200, 675],
+  "photos/day10-2.webp": [1200, 675],
+  "photos/day10-3.webp": [1200, 2134],
+  "photos/day10-4.webp": [1200, 2134],
+  "photos/day10-5.webp": [1200, 677],
+  "photos/day10-6.webp": [1200, 2134],
+  "photos/day11-2.webp": [1200, 675],
+  "photos/day11-3.webp": [1200, 675],
+  "photos/day11-4.webp": [1200, 675],
+  "photos/day12-1.webp": [680, 510],
+  "photos/day12-2.webp": [960, 1706],
+  "photos/day2-dotonbori-sunset.webp": [1200, 2134],
+  "photos/day2-shinsaibashi.webp": [1200, 2134],
+  "photos/day2-takoyaki.webp": [1200, 675],
+  "photos/day2-unagi-shop.webp": [1175, 1193],
+  "photos/day2-unagi.webp": [1200, 675],
+  "photos/day3-osakacastle.webp": [1200, 2134],
+  "photos/day3-station.webp": [1200, 2134],
+  "photos/day3-sushiro-kitty.webp": [1200, 2134],
+  "photos/day3-v50.webp": [1200, 675],
+  "photos/day4-fushimi-building.webp": [1200, 675],
+  "photos/day4-fushimi-ema.webp": [1200, 676],
+  "photos/day4-fushimi-mountain.webp": [1200, 2133],
+  "photos/day4-kamogawa.webp": [1200, 2134],
+  "photos/day5-kifune-lanterns.webp": [1200, 2134],
+  "photos/day5-kifune-shrine.webp": [1200, 2134],
+  "photos/day5-matsumoto-door.webp": [1115, 996],
+  "photos/day5-matsumoto-interior.webp": [1200, 2134],
+  "photos/day5-omikuji.webp": [1200, 675],
+  "photos/day5-sanzenin-garden.webp": [1200, 2134],
+  "photos/day5-sanzenin-lantern.webp": [1200, 2134],
+  "photos/day6-hello-kitty.webp": [1024, 1820],
+  "photos/day6-hogwarts.webp": [1200, 675],
+  "photos/day6-hollywood-dream.webp": [1200, 675],
+  "photos/day6-usj-globe.webp": [1200, 675],
+  "photos/day7-1.webp": [1024, 1820],
+  "photos/day7-2.webp": [1200, 675],
+  "photos/day7-3.webp": [1200, 900],
+  "photos/day8-1.webp": [1200, 675],
+  "photos/day8-2.webp": [1200, 2134],
+  "photos/day8-4.webp": [1200, 675],
+  "photos/day8-5.webp": [1200, 2134],
+  "photos/day9-2.webp": [1200, 675],
+  "photos/day9-3.webp": [1024, 1820],
+  "photos/day9-4.webp": [1200, 676],
+  "photos/day9-5.webp": [1200, 2134],
+  "photos/day9-6.webp": [1200, 2134],
+  "photos/day9-7.webp": [1200, 2134],
+  "photos/day9-8.webp": [1200, 2134]
 };

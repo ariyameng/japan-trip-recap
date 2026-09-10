@@ -780,10 +780,13 @@
           <div class="photo-grid">
             ${imgs.map((p, i) => {
               const cap = caps[i] || '';
+              // 预留宽高：浏览器在图片下载完成前就能占好位，避免滚动时页面抖动
+              const sz = (window.PHOTO_SIZES || {})[p];
+              const dim = sz ? ` width="${sz[0]}" height="${sz[1]}"` : '';
               return `
                 <figure>
                   <div class="photo-frame">
-                    <img src="${escapeHtml(p)}" alt="${cap ? escapeHtml(cap) : '旅行回忆照片'}" loading="lazy" class="day-photo" />
+                    <img src="${escapeHtml(p)}" alt="${cap ? escapeHtml(cap) : '旅行回忆照片'}"${dim} loading="lazy" decoding="async" class="day-photo" />
                   </div>
                   ${cap ? `<figcaption class="photo-cap">${escapeHtml(cap)}</figcaption>` : ''}
                 </figure>`;
@@ -953,7 +956,7 @@
           <section id="footmap">
             <div class="sec-head"><span class="kicker">图</span><h2 class="section-title">足迹地图</h2></div>
             <div class="footmap">
-              <img class="route-img" src="japan-route.png"
+              <img class="route-img" src="japan-route.webp"
                    alt="日本旅行足迹路线示意图：大阪 → 京都 → 东京 → 镰仓"
                    width="1193" height="566" loading="lazy" decoding="async" />
               <p class="hint">地图中的路线为旅行足迹示意，实际交通方式以日本电车（JR/地铁）为主。</p>
