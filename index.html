@@ -419,33 +419,7 @@
     .souv-card .s-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; }
     .souv-card .s-note { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.6rem; }
 
-    /* —— 留言墙 —— */
-    .gb-form {
-      border: 1px solid var(--line); border-radius: 4px; padding: 1.25rem;
-      margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.75rem;
-    }
-    .gb-form input, .gb-form textarea {
-      width: 100%; border: 1px solid var(--line); border-radius: 4px;
-      padding: 0.65rem 0.8rem; font-family: var(--font-sans);
-      font-size: 0.9rem; color: var(--text); background: #fff; resize: vertical;
-    }
-    .gb-form input:focus, .gb-form textarea:focus { outline: none; border-color: var(--accent); }
-    .gb-form input::placeholder, .gb-form textarea::placeholder { color: var(--text-muted); }
-    .gb-row { display: flex; align-items: center; justify-content: space-between; }
-    .gb-count { font-size: 0.72rem; color: var(--text-muted); }
-    .gb-submit {
-      background: #fff; color: var(--text);
-      border: 1px solid var(--line-strong); border-radius: 4px;
-      padding: 0.5rem 1.4rem; font-family: var(--font-sans);
-      font-size: 0.85rem; letter-spacing: 0.05em; cursor: pointer;
-      transition: border-color 0.2s ease, color 0.2s ease;
-    }
-    .gb-submit:hover { border-color: var(--accent); color: var(--accent); }
-    .gb-list { display: flex; flex-direction: column; gap: 0.75rem; }
-    .gb-card { border: 1px solid var(--line); border-radius: 4px; padding: 1rem 1.1rem; }
-    .gb-card .gb-name { font-family: var(--font-serif); font-weight: 600; font-size: 0.95rem; }
-    .gb-card .gb-date { font-size: 0.7rem; color: var(--text-muted); }
-    .gb-card .gb-text { font-size: 0.9rem; line-height: 1.8; color: var(--text); margin-top: 0.4rem; white-space: pre-wrap; word-break: break-word; }
+    /* —— 留言墙（Giscus，存 GitHub Discussions） —— */
     /* Giscus 评论区：仅用一条发丝线与留言墙分隔，保持极简 */
     .giscus-wrap { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
 
@@ -547,7 +521,6 @@
       /* ============================================================
        *  工具函数
        * ============================================================ */
-      const STORAGE_KEY = 'japan-trip-guestbook-v1';
 
       function escapeHtml(str) {
         if (str == null) return '';
@@ -617,20 +590,6 @@
       function mapsUrl(spot, city) {
         const query = encodeURIComponent(`${spot} ${city} 日本`);
         return `https://www.google.com/maps/search/?api=1&query=${query}`;
-      }
-
-      function loadGuestbookState() {
-        try {
-          return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-        } catch (e) {
-          return [];
-        }
-      }
-
-      function saveGuestbookState(state) {
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        } catch (e) {}
       }
 
       /* ============================================================
@@ -980,53 +939,16 @@
       }
 
       // 8. 留言板（替换原「下次再去」愿望清单）
+      // 8. 留言：统一用 Giscus（存 GitHub Discussions，人人可见、永久保存）
       function renderGuestbook() {
-        const seed = D.guestbook || [];
         return `
           <section id="guestbook">
             <div class="sec-head"><span class="kicker">言</span><h2 class="section-title">留言墙</h2></div>
             <p class="lead" style="margin-bottom:1.5rem">来过的朋友，留句话再走。</p>
-
-            <form class="gb-form" id="gb-form">
-              <input type="text" id="gb-name" maxlength="20" placeholder="你的名字 / 昵称" />
-              <textarea id="gb-text" rows="3" maxlength="200" placeholder="写句留言吧～（最多 200 字）"></textarea>
-              <div class="gb-row">
-                <span class="gb-count" id="gb-count">0 / 200</span>
-                <button type="submit" class="gb-submit">留 言</button>
-              </div>
-            </form>
-
-            <div class="gb-list" id="gb-list">
-              ${renderGuestbookCards(seed, loadGuestbookState())}
-            </div>
-
-            <!-- Giscus 多人评论：repo-id / category-id 已填入，GitHub Discussions 已开启 -->
             <div class="giscus-wrap">
               <div class="giscus" id="giscus-thread"></div>
             </div>
           </section>
-        `;
-      }
-
-      function renderGuestbookCards(seed, userMsgs) {
-        const seeds = (seed || []).map(m => gbCard(m, false));
-        const users = (userMsgs || []).slice().reverse().map(m => gbCard(m, true));
-        if (!seeds.length && !users.length) {
-          return `<p class="empty">还没有留言，来当第一个吧。</p>`;
-        }
-        return users.concat(seeds).join('');
-      }
-
-      function gbCard(m, isUser) {
-        const date = m.date ? `<span class="gb-date">${escapeHtml(m.date)}</span>` : '';
-        return `
-          <div class="gb-card">
-            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:.5rem">
-              <span class="gb-name">${escapeHtml(m.name || '匿名')}</span>
-              ${date}
-            </div>
-            <div class="gb-text">${escapeHtml(m.text || '')}</div>
-          </div>
         `;
       }
 
@@ -1112,7 +1034,6 @@
         // 给非 hero 区块与枯山水分隔注入滚动淡入
         app.querySelectorAll('section:not(.hero), .karesansui').forEach(s => s.classList.add('reveal'));
 
-        bindGuestbook();
         bindLightbox();
         bindGiscus();
         bindBackTop();
@@ -1169,38 +1090,6 @@
           });
         }, { rootMargin: '-45% 0px -50% 0px' });
         targets.forEach(s => obs.observe(s));
-      }
-
-      // 留言板交互
-      function bindGuestbook() {
-        const form = document.getElementById('gb-form');
-        const list = document.getElementById('gb-list');
-        const ta = document.getElementById('gb-text');
-        const count = document.getElementById('gb-count');
-        if (!form || !list) return;
-
-        if (ta && count) {
-          ta.addEventListener('input', () => {
-            count.textContent = `${ta.value.length} / 200`;
-          });
-        }
-
-        form.addEventListener('submit', function (e) {
-          e.preventDefault();
-          const name = document.getElementById('gb-name').value.trim() || '匿名';
-          const text = ta.value.trim();
-          if (!text) { ta.focus(); return; }
-          const msg = { name, text, date: fmtFullDate(new Date()) };
-          const state = loadGuestbookState();
-          state.push(msg);
-          saveGuestbookState(state);
-          list.innerHTML = renderGuestbookCards(D.guestbook || [], state);
-          ta.value = '';
-          if (count) count.textContent = '0 / 200';
-          if (list.firstElementChild) {
-            list.firstElementChild.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-        });
       }
 
       // 照片灯箱（纯白叠层 + 仅淡入）
