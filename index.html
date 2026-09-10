@@ -12,285 +12,424 @@
 
   <title>日本关西-关东治愈之旅 | 旅行回忆录</title>
 
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
   <!-- Google Fonts：Noto Serif JP（标题）+ Noto Sans JP（正文），预连接 + 预加载减少 FOIT -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="style"
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@500;700&display=swap" />
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@500;600;700&display=swap" />
   <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@500;700&display=swap" />
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            paper:    '#FBF6E9',  // 米黄纸张底
-            ink:      '#3D3528',  // 主文字
-            'ink-soft': '#6B5E4A',// 次要文字
-            sakura:   '#D4537E',  // 樱粉
-            matcha:   '#0F6E56',  // 抹茶绿
-            tachibana:'#D85A30',  // 朱橘
-            gold:     '#BA7517',  // 金
-            purple:   '#534AB7',  // 紫
-          },
-          fontFamily: {
-            hand: ['"Noto Sans JP"', 'sans-serif'],
-            zen:  ['"Noto Serif JP"', 'serif'],
-          },
-        },
-      },
-    };
-  </script>
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@500;600;700&display=swap" />
 
   <style>
-    /* —— 设计系统变量（品牌色板）—— */
+    /* ============================================================
+     *  设计系统：纯白底 · 极简 · 日式留白
+     *  仅四元素：白底 / 黑字 / 灰线 / 少量朱红点缀
+     * ============================================================ */
     :root {
-      --primary: #BC002D;   /* 日系朱红 */
-      --navy:    #1A2A3A;   /* 深邃藏青 */
-      --paper:   #F9F6F0;   /* 和纸米白 */
-      --ink:     #2C2C2C;   /* 墨色 */
-      --gold:    #D4AF37;   /* 金箔（仅点缀）*/
-      --ink-soft: #6B5E4A;
-
-      /* —— 流体交互与工艺令牌（Apple 流体 + canvas 极致工艺）—— */
-      --radius: 14px;
-      --radius-lg: 20px;
-      --shadow-1: 0 1px 3px rgba(26,42,58,0.06), 0 4px 14px rgba(26,42,58,0.05);
-      --shadow-2: 0 6px 20px rgba(26,42,58,0.09), 0 16px 38px rgba(26,42,58,0.07);
-      --shadow-float: 0 12px 44px rgba(26,42,58,0.14);
-      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* 回弹弹簧 */
-      --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);      /* 顺滑减速 */
-      --hairline: rgba(26,42,58,0.10);
+      --bg: #FFFFFF;
+      --surface: #FFFFFF;
+      --text: #1A1A1A;
+      --text-muted: #6B6B6B;
+      --line: #E8E8E8;
+      --line-strong: #D8D8D8;
+      --accent: #BC002D;          /* 日系朱红：仅极小面积点缀 */
+      --accent-soft: rgba(188, 0, 45, 0.08);
+      --font-serif: "Noto Serif JP", "Songti SC", serif;
+      --font-sans: "Noto Sans JP", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --max-width: 760px;
+      --section-padding: 96px 24px;
     }
 
-    /* —— 全局 —— */
-    html, body { background: var(--paper); }
-    html { -webkit-text-size-adjust: 100%; }
-    body { font-family: 'Noto Sans JP', sans-serif; color: var(--ink); font-size: 16px; }
+    * { box-sizing: border-box; }
 
-    /* —— 樱花 SVG 装饰（多个 size & 旋转）—— */
-    .sakura-deco {
-      position: absolute; pointer-events: none; opacity: 0.45;
-      animation: float 6s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50%      { transform: translateY(-6px) rotate(8deg); }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 4rem;
+      -webkit-text-size-adjust: 100%;
     }
 
-    /* —— 胶带感角标 —— */
-    .tape {
-      position: absolute; width: 80px; height: 22px;
-      background: rgba(212, 83, 126, 0.35);
-      border-left: 1px dashed rgba(255,255,255,0.5);
-      border-right: 1px dashed rgba(255,255,255,0.5);
-    }
-    .tape-orange { background: rgba(216, 90, 48, 0.35); }
-    .tape-green  { background: rgba(15, 110, 86, 0.35); }
-    .tape-purple { background: rgba(83, 74, 183, 0.35); }
-    .tape-gold   { background: rgba(186, 117, 23, 0.35); }
-
-    /* —— 手绘虚线边框 —— */
-    .hand-border {
-      border: 2px dashed currentColor;
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 1.9;
+      letter-spacing: 0.02em;
     }
 
-    /* —— 入场动画：弹簧上浮（Apple 流体感）—— */
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(16px) scale(0.985); }
-      to   { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .rise { animation: rise 0.72s var(--ease-spring) both; }
-    .delay-1 { animation-delay: 0.08s; }
-    .delay-2 { animation-delay: 0.18s; }
-    .delay-3 { animation-delay: 0.28s; }
-
-    /* —— 滚动揭示：进入视口时弹簧浮现（由 JS 注入 .reveal）—— */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s var(--ease-smooth), transform 0.7s var(--ease-spring); will-change: opacity, transform; }
-    .reveal.is-visible { opacity: 1; transform: none; }
-
-    /* —— details 折叠 —— */
-    details > summary { list-style: none; cursor: pointer; }
-    details > summary::-webkit-details-marker { display: none; }
-    details[open] .chev { transform: rotate(180deg); }
-    .chev { transition: transform 0.35s var(--ease-spring); }
-
-    /* —— 留言板 —— */
-    .gb-card {
-      position: relative;
-      background: #FFFDF7;
-      border: 1px solid rgba(83, 74, 183, 0.16);
-      border-radius: var(--radius-lg);
-      padding: 14px 16px 16px;
-      box-shadow: var(--shadow-1);
-      transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-smooth);
-    }
-    .gb-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
-    .gb-card-user { border-color: rgba(212, 83, 126, 0.28); }
-    .gb-name { font-family: 'Noto Serif JP', 'Noto Sans JP', cursive; font-weight: 700; color: #3D3528; }
-    .gb-date { font-size: 10px; color: #6B5E4A; }
-    .gb-text { font-size: 0.92rem; line-height: 1.75; color: #3D3528; white-space: pre-wrap; word-break: break-word; }
-    .gb-form input, .gb-form textarea {
-      width: 100%;
-      border: 1px dashed rgba(107, 94, 74, 0.4);
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.65);
-      padding: 10px 12px;
-      font-family: 'Noto Sans JP', cursive;
-      font-size: 0.92rem;
-      color: #3D3528;
-      resize: none;
-    }
-    .gb-form input:focus, .gb-form textarea:focus { outline: none; border-color: #D4537E; border-style: solid; }
-    .gb-form input::placeholder, .gb-form textarea::placeholder { color: #B8A98C; }
-    .gb-submit {
-      background: #D4537E; color: #fff; border: none; border-radius: 999px;
-      padding: 8px 22px; font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 0.9rem;
-      cursor: pointer; transition: background 0.2s ease, transform 0.1s ease;
-    }
-    .gb-submit:hover { background: #c0416f; }
-    .gb-submit:active { transform: scale(0.96); }
-
-    /* —— 顶部滚动进度条 —— */
-    #scroll-progress {
-      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
-      background: linear-gradient(90deg, #D4537E, #D85A30, #0F6E56);
-      z-index: 50; transition: width 0.08s linear;
-    }
-
-    /* —— 纸张肌理（细微噪点）—— */
-    #grain {
-      position: fixed; inset: 0; pointer-events: none; z-index: 40;
-      opacity: 0.04; mix-blend-mode: multiply;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    }
-
-    /* —— 照片灯箱（弹簧缩放 + 毛玻璃，Apple 流体）—— */
-    #lightbox {
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(40, 33, 24, 0.86);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      opacity: 0; visibility: hidden; pointer-events: none;
-      transition: opacity 0.32s var(--ease-smooth), visibility 0s linear 0.32s;
-    }
-    #lightbox.show { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity 0.32s var(--ease-smooth); }
-    #lightbox-img { transform: scale(0.9); opacity: 0; transition: transform 0.46s var(--ease-spring), opacity 0.3s var(--ease-smooth); }
-    #lightbox.show #lightbox-img { transform: scale(1); opacity: 1; }
-    .day-photo { cursor: zoom-in; transition: transform 0.4s var(--ease-spring); }
-    .day-photo:hover { transform: scale(1.03); }
-
-    /* —— 主区域容器（移动端优先，桌面端居中）—— */
-    main#app {
-      max-width: 480px;
-      margin: 0 auto;
-      background: #FBF6E9;
-      min-height: 100vh;
-      box-shadow: 0 0 40px rgba(0,0,0,0.08);
-      overflow-x: hidden;
-    }
-
-    /* —— 工具：行内手写感强调 —— */
-    .underline-wave {
-      background-image: linear-gradient(to right, transparent 0, currentColor 8%, currentColor 92%, transparent 100%);
-      background-position: 0 100%;
-      background-size: 100% 2px;
-      background-repeat: no-repeat;
-      padding-bottom: 2px;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .sakura-deco, .rise, .reveal { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
-      .day-photo, .chev { transition: none !important; }
-      #lightbox, #lightbox-img { transition: none !important; }
-    }
-
-    /* ===== 品牌化升级样式 ===== */
-    html { scroll-behavior: smooth; scroll-padding-top: 3.5rem; }
     img, iframe, svg { max-width: 100%; }
 
-    /* 全局标题规范：一级标题统一日系朱红（修正此前被 text-ink 覆盖）*/
-    h1 { color: var(--primary); letter-spacing: 0.02em; }
-    h2.section-title {
-      border-left: 3px solid var(--navy);
-      padding-left: 0.7rem;
-      text-align: left;
-      line-height: 1.3;
+    a { color: var(--text); text-decoration: none; }
+    a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+
+    /* —— 主体：单栏居中，760 宽，四周留白 —— */
+    main#app {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      background: var(--bg);
     }
 
-    /* 统一卡片：弹簧悬浮 + 分层阴影（工艺感） */
-    .card {
-      background: #fff;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-1);
-      transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-smooth);
+    /* —— 区块：大留白 + 细线分隔（不用色块）—— */
+    section {
+      padding: var(--section-padding);
+      border-top: 1px solid var(--line);
     }
-    .card:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); }
+    section:first-of-type { border-top: none; }
 
-    /* 顶部导航（sticky + 毛玻璃） */
+    /* —— 排版 —— */
+    h1 {
+      font-family: var(--font-serif);
+      font-weight: 700;
+      color: var(--text);
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      line-height: 1.35;
+      letter-spacing: 0.04em;
+      margin: 0;
+    }
+    h2, .section-title {
+      font-family: var(--font-serif);
+      font-weight: 600;
+      color: var(--text);
+      font-size: clamp(1.375rem, 3.5vw, 1.625rem);
+      line-height: 1.4;
+      margin: 0;
+    }
+    .sec-head {
+      display: flex;
+      align-items: baseline;
+      gap: 0.7rem;
+      margin-bottom: 2.75rem;
+    }
+    /* 极小的朱红汉字标签：唯一允许的“装饰” */
+    .kicker {
+      font-family: var(--font-serif);
+      color: var(--accent);
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .lead { color: var(--text-muted); font-size: 0.95rem; }
+
+    .empty {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      padding: 3rem 0;
+    }
+
+    /* ============================================================
+     *  顶部导航：sticky 白底毛玻璃，细线底，朱红下划线标识当前项
+     * ============================================================ */
     .site-nav {
       position: sticky; top: 0; z-index: 45;
-      background: rgba(249,246,240,0.82);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(26,42,58,0.08);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
     }
     .site-nav ul {
-      display: flex; gap: 0.2rem; padding: 0.55rem 0.75rem;
-      max-width: 480px; margin: 0 auto;
+      display: flex; gap: 1.6rem;
+      padding: 0.9rem 1rem;
+      max-width: var(--max-width); margin: 0 auto;
       overflow-x: auto; scrollbar-width: none;
+      list-style: none;
     }
     .site-nav ul::-webkit-scrollbar { display: none; }
     .site-nav a {
       flex: 0 0 auto; white-space: nowrap;
-      font-size: 0.85rem; color: var(--navy); text-decoration: none;
-      padding: 0.3rem 0.7rem; border-radius: 999px;
-      transition: background 0.3s var(--ease-spring), color 0.3s var(--ease-smooth);
+      font-size: 0.85rem; letter-spacing: 0.08em;
+      color: var(--text-muted);
+      padding: 0.2rem 0;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
     }
-    .site-nav a:hover, .site-nav a.active { background: var(--primary); color: #fff; }
+    .site-nav a:hover { color: var(--text); text-decoration: none; }
+    .site-nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-    /* 足迹地图 */
-    .footmap iframe { width: 100%; height: 400px; border: 0; border-radius: 12px; }
+    /* ============================================================
+     *  Hero：纯白、安静、留白
+     * ============================================================ */
+    .hero { text-align: center; padding-top: 7rem; padding-bottom: 6rem; }
+    .hero .eyebrow {
+      font-size: 0.8rem; letter-spacing: 0.4em;
+      color: var(--text-muted); margin-bottom: 1.75rem;
+    }
+    .hero .subtitle { color: var(--text-muted); font-size: 0.95rem; margin-top: 1rem; }
+    .hero .meta {
+      margin-top: 2.5rem; display: inline-block;
+      border: 1px solid var(--line); border-radius: 4px;
+      padding: 1rem 1.5rem; font-size: 0.85rem; color: var(--text-muted);
+    }
+    .hero .meta b { color: var(--text); font-weight: 600; }
+    .hero .opening {
+      margin: 2.5rem auto 0; max-width: 32rem;
+      color: var(--text-muted); font-size: 0.95rem; line-height: 2;
+    }
+    .scroll-hint {
+      margin-top: 3rem; color: var(--text-muted);
+      font-size: 0.75rem; letter-spacing: 0.3em;
+    }
+
+    /* ============================================================
+     *  卡片：白底、1px 灰线、0-4px 圆角、无阴影、无悬浮位移
+     * ============================================================ */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 1.25rem;
+    }
+    .card:hover { border-color: var(--line-strong); }
+
+    /* —— 台风/出发故事 —— */
+    .typhoon-card { border: 1px solid var(--line); border-radius: 4px; padding: 1.75rem; }
+    .typhoon-card .mood { font-size: 1.5rem; text-align: center; margin-bottom: 0.6rem; }
+    .typhoon-card h3 {
+      text-align: center; font-family: var(--font-serif);
+      font-weight: 600; font-size: 1.15rem; margin: 0 0 1.25rem;
+    }
+    .typhoon-story p { margin: 0 0 1.1em; }
+    .typhoon-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+      margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+      text-align: center;
+    }
+    .typhoon-stats .val {
+      font-family: var(--font-serif); font-weight: 700;
+      font-size: 1.5rem; color: var(--accent); line-height: 1;
+    }
+    .typhoon-stats .lbl {
+      font-size: 0.7rem; color: var(--text-muted);
+      margin-top: 0.45rem; letter-spacing: 0.04em;
+    }
+    .typhoon-note {
+      margin-top: 1.5rem; padding-left: 1rem;
+      border-left: 2px solid var(--line);
+      color: var(--text-muted); font-size: 0.85rem;
+    }
+
+    /* —— 交通时间线 —— */
+    .leg-group { margin-bottom: 2.75rem; }
+    .leg-group:last-child { margin-bottom: 0; }
+    .leg-group-title {
+      display: flex; align-items: center; gap: 0.55rem;
+      font-family: var(--font-serif); font-weight: 600; font-size: 1rem;
+      margin: 0 0 1.5rem;
+    }
+    .leg-group-title::before {
+      content: ""; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent); display: inline-block;
+    }
+    .leg { position: relative; padding-left: 1.75rem; padding-bottom: 1.5rem; }
+    .leg:last-child { padding-bottom: 0; }
+    .leg::before {
+      content: ""; position: absolute; left: 5px; top: 1.5rem; bottom: 0;
+      width: 1px; background: var(--line);
+    }
+    .leg:last-child::before { display: none; }
+    .leg .node {
+      position: absolute; left: 0; top: 0.4rem;
+      width: 11px; height: 11px; border-radius: 50%;
+      border: 1px solid var(--line-strong); background: #fff;
+    }
+    .leg.cancelled .node { border-style: dashed; }
+    .leg .leg-head { font-weight: 600; font-size: 0.95rem; }
+    .leg.cancelled .leg-head {
+      color: var(--text-muted);
+      text-decoration: line-through; text-decoration-color: var(--line-strong);
+    }
+    .leg .leg-time { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; }
+    .leg .leg-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; }
+    .leg .leg-reason {
+      display: inline-block; margin-top: 0.5rem; font-size: 0.75rem;
+      color: var(--text-muted); border: 1px solid var(--line);
+      border-radius: 4px; padding: 0.2rem 0.5rem;
+    }
+    .leg .code {
+      font-size: 0.72rem; color: var(--text-muted);
+      border: 1px solid var(--line); border-radius: 4px;
+      padding: 0.1rem 0.45rem; margin-left: 0.4rem;
+    }
+
+    /* —— 路线 —— */
+    .route-svg { width: 100%; height: auto; display: block; }
+    .city-list { margin-top: 1.75rem; }
+    .city-row {
+      display: flex; align-items: baseline; gap: 0.6rem;
+      padding: 0.85rem 0; border-bottom: 1px solid var(--line);
+    }
+    .city-row:first-child { border-top: 1px solid var(--line); }
+    .city-row .cname { font-family: var(--font-serif); font-weight: 600; }
+    .city-row .ckana { font-size: 0.8rem; color: var(--text-muted); }
+    .city-row .cdays { margin-left: auto; font-size: 0.8rem; color: var(--text-muted); }
+    .city-meta { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.35rem; }
+    .stay-link {
+      display: inline-flex; gap: 0.4rem; align-items: flex-start;
+      font-size: 0.8rem; color: var(--text-muted); margin-top: 0.4rem;
+    }
+    .stay-link:hover { color: var(--accent); }
+
+    /* —— 足迹地图 —— */
+    .footmap iframe { width: 100%; height: 400px; border: 1px solid var(--line); border-radius: 4px; }
     .coord-list {
-      list-style: none; display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 0.5rem; padding: 0; margin-top: 1rem;
+      list-style: none; padding: 0; margin: 1.5rem 0 0;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1.25rem;
     }
-    .coord-list li {
-      background: #fff; border-radius: var(--radius); padding: 0.6rem 0.8rem;
-      box-shadow: var(--shadow-1); font-size: 0.8rem; line-height: 1.5;
+    .coord-list li { border-top: 1px solid var(--line); padding-top: 0.6rem; }
+    .coord-list .c-city { font-family: var(--font-serif); font-weight: 600; font-size: 0.9rem; }
+    .coord-list .c-coord { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.2rem; }
+    .footmap .hint { font-size: 0.78rem; color: var(--text-muted); margin-top: 1.25rem; }
+
+    /* —— 味觉地图网格 —— */
+    .food-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+    .food-card { border: 1px solid var(--line); border-radius: 4px; padding: 1.25rem; background: var(--surface); }
+    .food-card:hover { border-color: var(--line-strong); }
+    .food-card .f-name { font-family: var(--font-serif); font-weight: 600; font-size: 1rem; }
+    .food-card .f-note { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; }
+    .food-card .f-rating { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; letter-spacing: 0.04em; }
+    .food-card .f-rating .star { color: var(--accent); }
+
+    /* —— 日记（details）—— */
+    .day-card {
+      border: 1px solid var(--line); border-radius: 4px;
+      margin-bottom: 1rem; background: var(--surface);
     }
-    .coord-list .c-city { font-weight: 700; color: var(--navy); }
-
-    /* 味觉地图网格 */
-    .food-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.75rem; }
-    .food-card {
-      background: #fff; border-radius: var(--radius); padding: 1rem;
-      box-shadow: var(--shadow-1); transition: transform 0.4s var(--ease-spring), box-shadow 0.4s var(--ease-smooth);
+    .day-card > summary {
+      list-style: none; cursor: pointer;
+      display: flex; align-items: center; gap: 1rem; padding: 1.1rem 1.25rem;
     }
-    .food-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); }
-    .food-card .f-name { font-weight: 700; color: var(--ink); font-size: 0.95rem; }
-    .food-card .f-rating { color: var(--gold); font-size: 0.8rem; margin-top: 0.4rem; }
-
-    /* 日记 figure 占位 */
-    figure.day-figure { margin: 0; }
-    figure.day-figure img { width: 100%; border-radius: 12px; }
-
-    /* 页脚 */
-    .site-footer { background: var(--navy); color: #fff; text-align: center; padding: 2rem 1rem; font-size: 0.85rem; }
-    .site-footer a { color: var(--gold); text-decoration: none; }
-    .back-top {
-      display: inline-block; margin-top: 0.85rem; padding: 0.4rem 1.1rem;
-      background: var(--gold); color: var(--navy);
-      border-radius: 999px; font-weight: 700; cursor: pointer; border: none; font-size: 0.85rem;
+    .day-card > summary::-webkit-details-marker { display: none; }
+    .day-badge {
+      width: 2rem; height: 2rem; flex: 0 0 auto;
+      border: 1px solid var(--line-strong); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-serif); font-weight: 700; font-size: 0.9rem;
     }
-    .back-top:hover { opacity: 0.9; transform: translateY(-2px); transition: transform 0.3s var(--ease-spring); }
+    .day-card[open] .day-badge { color: var(--accent); border-color: var(--accent); }
+    .day-title { font-family: var(--font-serif); font-weight: 600; font-size: 1.05rem; }
+    .day-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem; }
+    .chev { margin-left: auto; color: var(--text-muted); transition: transform 0.3s ease; font-size: 1.1rem; }
+    .day-card[open] .chev { transform: rotate(180deg); }
+    .day-body { padding: 0 1.25rem 1.25rem; border-top: 1px solid var(--line); margin-top: 0; padding-top: 1.1rem; }
+    .day-body p { margin: 0 0 1.1em; }
+    .photo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-top: 1rem; }
+    .photo-grid figure { margin: 0; }
+    .photo-grid img { width: 100%; display: block; border-radius: 0; }
+    .photo-cap { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.45rem; }
+    .spot-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .spot-tags a {
+      font-size: 0.78rem; color: var(--text-muted);
+      border: 1px solid var(--line); border-radius: 4px; padding: 0.2rem 0.6rem;
+    }
+    .spot-tags a:hover { color: var(--accent); border-color: var(--accent); text-decoration: none; }
+    /* USJ 项目卡片 */
+    .ride-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; margin-top: 1rem; }
+    @media (min-width: 560px) { .ride-grid { grid-template-columns: 1fr 1fr; } }
+    .ride-card { border: 1px solid var(--line); border-radius: 4px; padding: 0.9rem 1rem; }
+    .ride-card .r-name { font-family: var(--font-serif); font-weight: 600; font-size: 0.95rem; }
+    .ride-card .r-area { font-size: 0.72rem; color: var(--text-muted); margin-top: 0.2rem; }
+    .ride-card .r-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem; }
+    .ride-card .r-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+    .ride-card .r-tags span {
+      font-size: 0.7rem; color: var(--text-muted);
+      border: 1px solid var(--line); border-radius: 4px; padding: 0.1rem 0.45rem;
+    }
 
+    /* —— 手信 —— */
+    .souv-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .souv-card { border: 1px solid var(--line); border-radius: 4px; padding: 1.1rem 1.2rem; }
+    .souv-card .s-name { font-family: var(--font-serif); font-weight: 600; font-size: 1rem; }
+    .souv-card .s-meta { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; }
+    .souv-card .s-note { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.6rem; }
+
+    /* —— 留言墙 —— */
+    .gb-form {
+      border: 1px solid var(--line); border-radius: 4px; padding: 1.25rem;
+      margin-bottom: 2rem; display: flex; flex-direction: column; gap: 0.75rem;
+    }
+    .gb-form input, .gb-form textarea {
+      width: 100%; border: 1px solid var(--line); border-radius: 4px;
+      padding: 0.65rem 0.8rem; font-family: var(--font-sans);
+      font-size: 0.9rem; color: var(--text); background: #fff; resize: vertical;
+    }
+    .gb-form input:focus, .gb-form textarea:focus { outline: none; border-color: var(--accent); }
+    .gb-form input::placeholder, .gb-form textarea::placeholder { color: var(--text-muted); }
+    .gb-row { display: flex; align-items: center; justify-content: space-between; }
+    .gb-count { font-size: 0.72rem; color: var(--text-muted); }
+    .gb-submit {
+      background: #fff; color: var(--text);
+      border: 1px solid var(--line-strong); border-radius: 4px;
+      padding: 0.5rem 1.4rem; font-family: var(--font-sans);
+      font-size: 0.85rem; letter-spacing: 0.05em; cursor: pointer;
+      transition: border-color 0.2s ease, color 0.2s ease;
+    }
+    .gb-submit:hover { border-color: var(--accent); color: var(--accent); }
+    .gb-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .gb-card { border: 1px solid var(--line); border-radius: 4px; padding: 1rem 1.1rem; }
+    .gb-card .gb-name { font-family: var(--font-serif); font-weight: 600; font-size: 0.95rem; }
+    .gb-card .gb-date { font-size: 0.7rem; color: var(--text-muted); }
+    .gb-card .gb-text { font-size: 0.9rem; line-height: 1.8; color: var(--text); margin-top: 0.4rem; white-space: pre-wrap; word-break: break-word; }
+    .giscus-wrap { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); }
+    .giscus-hint { text-align: center; font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem; }
+
+    /* —— 结尾 —— */
+    .ending { text-align: center; }
+    .ending p { color: var(--text-muted); font-size: 1rem; max-width: 28rem; margin: 1.5rem auto 0; line-height: 2; }
+    .ending .sign { font-size: 0.78rem; color: var(--text-muted); margin-top: 2rem; letter-spacing: 0.1em; }
+
+    /* —— 页脚：白底细线，文字链回顶 —— */
+    .site-footer {
+      border-top: 1px solid var(--line);
+      padding: 2.5rem 1.5rem; text-align: center;
+      font-size: 0.8rem; color: var(--text-muted);
+    }
+    .site-footer .back-top {
+      display: inline-block; margin-top: 1rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--line-strong); padding-bottom: 1px;
+      cursor: pointer;
+    }
+    .site-footer .back-top:hover { color: var(--accent); border-bottom-color: var(--accent); text-decoration: none; }
+
+    /* —— 照片灯箱：纯白叠层 + 仅淡入，无模糊/缩放 —— */
+    #lightbox {
+      position: fixed; inset: 0; z-index: 60; display: none;
+      align-items: center; justify-content: center; padding: 5vh 5vw;
+      background: rgba(255, 255, 255, 0.97); cursor: zoom-out;
+    }
+    #lightbox.show { display: flex; }
+    #lightbox img { max-width: 92vw; max-height: 92vh; border-radius: 0; }
+    #lightbox .lb-hint {
+      position: absolute; bottom: 5vh; left: 0; right: 0; text-align: center;
+      font-size: 0.75rem; color: var(--text-muted);
+    }
+
+    /* —— 入场：仅轻微淡入（opacity + 8px）—— */
+    .rise { opacity: 0; transform: translateY(8px); animation: riseFade 0.6s ease forwards; }
+    @keyframes riseFade { to { opacity: 1; transform: none; } }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+
+    .reveal { opacity: 0; transform: translateY(8px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.is-visible { opacity: 1; transform: none; }
+
+    /* —— 无障碍：减弱动效 —— */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .rise { animation: none; opacity: 1; transform: none; }
+      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .chev { transition: none !important; }
+    }
+
+    /* —— 移动端优先修复 —— */
     @media (max-width: 768px) {
-      .site-nav a { font-size: 0.8rem; }
+      :root { --section-padding: 64px 20px; }
+      .typhoon-stats { grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1rem; }
+      .photo-grid { grid-template-columns: 1fr; }
+      .souv-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -298,14 +437,14 @@
 <body>
   <span id="top"></span>
 
-  <!-- 顶部导航（sticky + 毛玻璃） -->
+  <!-- 顶部导航（sticky 白底 + 细线） -->
   <nav class="site-nav" aria-label="主导航">
     <ul>
-      <li><a href="#overview">📅 行程总览</a></li>
-      <li><a href="#footmap">👣 足迹地图</a></li>
-      <li><a href="#food">🍜 味觉地图</a></li>
-      <li><a href="#diary">📖 日记</a></li>
-      <li><a href="#guestbook">💬 留言墙</a></li>
+      <li><a href="#overview">行程</a></li>
+      <li><a href="#footmap">足迹</a></li>
+      <li><a href="#food">味觉</a></li>
+      <li><a href="#diary">日记</a></li>
+      <li><a href="#guestbook">留言</a></li>
     </ul>
   </nav>
 
@@ -313,11 +452,10 @@
     <!-- 渲染输出会到这里 -->
   </main>
 
-  <!-- 滚动进度条 / 纸张肌理 / 照片灯箱 -->
-  <div id="scroll-progress"></div>
-  <div id="grain" aria-hidden="true"></div>
-  <div id="lightbox" class="fixed inset-0 z-[60] p-6 cursor-zoom-out">
-    <img id="lightbox-img" class="max-h-[90vh] max-w-[90vw] rounded-2xl shadow-2xl" src="" alt="放大查看" />
+  <!-- 照片灯箱（纯白叠层） -->
+  <div id="lightbox">
+    <img id="lightbox-img" src="" alt="放大查看" />
+    <div class="lb-hint">点击任意处关闭</div>
   </div>
 
   <!-- 数据驱动 -->
@@ -420,23 +558,6 @@
         } catch (e) {}
       }
 
-      function sakuraSvg(size = 24, rotate = 0, color = '#D4537E') {
-        return `
-          <svg class="sakura-deco" style="width:${size}px;height:${size}px;transform:rotate(${rotate}deg)" viewBox="0 0 24 24" fill="${color}">
-            <path d="M12 2 C13 5 15 6 17 6 C16 8 16 10 17 12 C15 12 13 13 12 16 C11 13 9 12 7 12 C8 10 8 8 7 6 C9 6 11 5 12 2 Z M12 22 L13 19 L11 19 Z" />
-            <circle cx="12" cy="12" r="1.5" fill="#FBEAF0" />
-          </svg>
-        `;
-      }
-
-      function emojiForType(type) {
-        const map = {
-          '手信': '🎁', '御守': '⛩️', '店': '🏪', '杂货': '🛍️',
-          '文具': '✏️', '零食': '🍡', '服饰': '👘', '美妆': '💄',
-        };
-        return map[type] || '✨';
-      }
-
       /* ============================================================
        *  模块渲染
        * ============================================================ */
@@ -446,41 +567,16 @@
         const days = daysSince(D.dateRange.departFrom);
         const dateText = `${fmtFullDate(D.dateRange.departFrom)} — ${fmtFullDate(D.dateRange.returnTo)}`;
         return `
-          <section class="hero relative px-6 pt-14 pb-20 text-center overflow-hidden"
-                   style="background: linear-gradient(180deg, #FBEAF0 0%, #FBF6E9 60%);">
-            ${sakuraSvg(28, 15, '#D4537E').replace('position: absolute', 'position:absolute;top:24px;left:24px')}
-            ${sakuraSvg(20, -20, '#D85A30').replace('position: absolute', 'position:absolute;top:80px;right:32px')}
-            ${sakuraSvg(16, 30, '#0F6E56').replace('position: absolute', 'position:absolute;top:160px;left:48px')}
-
-            <div class="rise text-xs tracking-[0.4em] text-ink-soft mb-4">旅 行 回 忆 录</div>
-            <h1 class="rise delay-1 font-zen text-[1.7rem] font-bold leading-snug mb-3 px-2">
-              ${escapeHtml(D.title)}
-            </h1>
-            <div class="rise delay-2 text-sm text-ink-soft mb-10">
-              ${escapeHtml(D.subtitle)}
+          <section class="hero">
+            <div class="eyebrow rise">旅 行 回 忆 录</div>
+            <h1 class="rise delay-1">${escapeHtml(D.title)}</h1>
+            <div class="subtitle rise delay-2">${escapeHtml(D.subtitle)}</div>
+            <div class="meta rise delay-3">
+              <div>${escapeHtml(dateText)}</div>
+              <div style="margin-top:.5rem">距这次旅行已经 <b>${days}</b> 天</div>
             </div>
-
-            <div class="rise delay-3 inline-block bg-white/70 hand-border border-sakura/50 px-6 py-4 rounded-2xl rotate-[-2deg] shadow-sm">
-              <div class="text-xs text-ink-soft">${escapeHtml(dateText)}</div>
-              <div class="font-zen text-base font-bold text-sakura mt-2">
-                距这次旅行已经
-                <span class="text-3xl mx-1">${days}</span>
-                天
-              </div>
-            </div>
-
-            ${D.openingLine ? `
-              <p class="mt-10 mx-auto max-w-[16rem] text-[0.95rem] leading-loose text-ink/80">
-                ${escapeHtml(D.openingLine)}
-              </p>
-            ` : ''}
-
-            <div class="mt-8 text-ink-soft/80 text-xs tracking-[0.3em]">↓ 向下滑动</div>
-
-            <!-- 底部装饰：下沉的弧 -->
-            <svg class="absolute -bottom-1 left-0 w-full" viewBox="0 0 480 40" preserveAspectRatio="none">
-              <path d="M0,40 Q120,0 240,20 T480,40 Z" fill="#FBF6E9"/>
-            </svg>
+            ${D.openingLine ? `<p class="opening rise">${escapeHtml(D.openingLine)}</p>` : ''}
+            <div class="scroll-hint">↓ 向下滑动</div>
           </section>
         `;
       }
@@ -489,38 +585,27 @@
       function renderTyphoon() {
         if (!D.typhoon) return '';
         const t = D.typhoon;
-        // story 支持数组（多段）或字符串（单段）
         const storyArr = Array.isArray(t.story) ? t.story : (t.story ? [t.story] : []);
         return `
-          <section class="typhoon px-6 -mt-8 relative z-10">
-            <div class="rise relative bg-tachibana/[0.08] hand-border border-tachibana/40 rounded-3xl p-6 rotate-[1.2deg] shadow-md">
-              <div class="tape tape-orange" style="top:-10px;left:50%;transform:translateX(-50%) rotate(-3deg);"></div>
-
-              <div class="text-center mb-3 text-4xl">${escapeHtml(t.mood || '🌀')}</div>
-              <h3 class="font-zen text-base font-bold text-tachibana text-center mb-4">
-                ${escapeHtml(t.title || '出发前夜')}
-              </h3>
-
-              <div class="space-y-3 text-[0.95rem] leading-loose text-ink">
+          <section>
+            <div class="sec-head"><span class="kicker">旅</span><h2 class="section-title">出发前后</h2></div>
+            <div class="typhoon-card rise">
+              ${t.mood ? `<div class="mood">${escapeHtml(t.mood)}</div>` : ''}
+              ${t.title ? `<h3>${escapeHtml(t.title)}</h3>` : ''}
+              <div class="typhoon-story">
                 ${storyArr.map(s => `<p>${escapeHtml(s)}</p>`).join('')}
               </div>
-
               ${t.stats && t.stats.length > 0 ? `
-                <div class="mt-5 grid grid-cols-4 gap-2">
+                <div class="typhoon-stats">
                   ${t.stats.map(s => `
-                    <div class="text-center bg-white/70 rounded-xl py-2.5 border border-tachibana/30">
-                      <div class="font-zen text-lg font-bold text-tachibana leading-none">${escapeHtml(s.value)}</div>
-                      <div class="text-[0.65rem] text-ink-soft mt-1">${escapeHtml(s.label)}</div>
+                    <div>
+                      <div class="val">${escapeHtml(s.value)}</div>
+                      <div class="lbl">${escapeHtml(s.label)}</div>
                     </div>
                   `).join('')}
                 </div>
               ` : ''}
-
-              ${t.note ? `
-                <div class="mt-5 pl-3 border-l-2 border-tachibana/40 text-xs text-ink-soft italic leading-relaxed">
-                  ${escapeHtml(t.note)}
-                </div>
-              ` : ''}
+              ${t.note ? `<div class="typhoon-note">${escapeHtml(t.note)}</div>` : ''}
             </div>
           </section>
         `;
@@ -531,10 +616,8 @@
         const tr = D.transports;
         if (!tr) return '';
         return `
-          <section class="transports px-6 py-12" id="overview">
-            <h2 class="section-title font-zen text-xl font-bold mb-6">
-              <span class="underline-wave text-purple">怎 么 去 的</span>
-            </h2>
+          <section id="overview">
+            <div class="sec-head"><span class="kicker">程</span><h2 class="section-title">怎么去的</h2></div>
             ${tr.outbound ? renderLegGroup(tr.outbound) : ''}
             ${tr.inbound ? renderLegGroup(tr.inbound) : ''}
           </section>
@@ -545,95 +628,50 @@
         const legs = group.legs || [];
         if (legs.length === 0) return '';
         return `
-          <div class="mb-9 last:mb-0">
-            <div class="flex items-center mb-4">
-              <span class="w-1.5 h-5 bg-purple rounded-full mr-2"></span>
-              <span class="font-zen font-bold text-purple text-base">${escapeHtml(group.title)}</span>
-            </div>
-            <div>
-              ${legs.map((leg, i) => renderLeg(leg, i, legs.length)).join('')}
-            </div>
+          <div class="leg-group">
+            <div class="leg-group-title">${escapeHtml(group.title)}</div>
+            ${legs.map((leg, i) => renderLeg(leg, i, legs.length)).join('')}
           </div>
         `;
       }
 
       function renderLeg(leg, idx, total) {
         const cancelled = leg.status === 'cancelled';
-        const icons = { train: '🚆', flight: '✈️', rail: '🚄', metro: '🚇', hotel: '🏨' };
-        const icon = icons[leg.type] || '🚉';
         const isLast = idx === total - 1;
-
-        // 卡片主色随状态切换
-        const cardCls = cancelled
-          ? 'bg-stone-100/80 border-stone-300 opacity-75'
-          : 'bg-white/80 border-purple/25';
-        const titleCls = cancelled ? 'text-ink-soft line-through' : 'text-ink';
-        const codeCls = cancelled
-          ? 'bg-stone-200 text-stone-500 line-through'
-          : 'bg-purple/10 text-purple';
-        const timeCls = cancelled ? 'text-stone-500' : 'text-ink-soft';
-        const nodeCls = cancelled
-          ? 'bg-stone-200 border-2 border-dashed border-stone-400 text-stone-500'
-          : 'bg-purple/15 border-2 border-purple/50';
-
         return `
-          <div class="relative pl-9 ${isLast ? '' : 'pb-5'}">
-            ${isLast ? '' : `
-              <div class="absolute left-[11px] top-7 bottom-0 border-l-2 ${cancelled ? 'border-dashed border-stone-400' : 'border-solid border-purple/30'}"></div>
-            `}
-            <div class="absolute left-0 top-0.5 w-6 h-6 rounded-full flex items-center justify-center text-[0.7rem] ${nodeCls}">
-              ${cancelled ? '✕' : icon}
+          <div class="leg ${cancelled ? 'cancelled' : ''}">
+            <span class="node"></span>
+            <div class="leg-head">
+              ${escapeHtml(leg.from)}${leg.to ? ' → ' + escapeHtml(leg.to) : ''}
+              ${leg.code ? `<span class="code">${escapeHtml(leg.code)}</span>` : ''}
             </div>
-
-            <div class="border rounded-2xl p-3.5 ${cardCls}">
-              <div class="flex items-center gap-2 flex-wrap">
-                <span class="font-zen font-bold text-sm ${titleCls}">
-                  ${escapeHtml(leg.from)}${leg.to ? ' → ' + escapeHtml(leg.to) : ''}
-                </span>
-                ${leg.code ? `<span class="text-[0.7rem] px-1.5 py-0.5 rounded ${codeCls}">${escapeHtml(leg.code)}</span>` : ''}
-              </div>
-
-              <div class="text-xs ${timeCls} mt-1.5">
-                ${escapeHtml(leg.date)}${leg.depart ? '　' + escapeHtml(leg.depart) + ' → ' + escapeHtml(leg.arrive) : ''}
-              </div>
-
-              ${leg.note ? `<div class="text-xs text-ink-soft mt-1.5 italic">${escapeHtml(leg.note)}</div>` : ''}
-
-              ${cancelled && leg.reason ? `
-                <div class="mt-2.5 inline-block text-[0.7rem] bg-red-50 text-red-600 px-2 py-1 rounded-lg border border-red-200">
-                  ⚠ ${escapeHtml(leg.reason)}
-                </div>
-              ` : ''}
+            <div class="leg-time">
+              ${escapeHtml(leg.date)}${leg.depart ? '　' + escapeHtml(leg.depart) + ' → ' + escapeHtml(leg.arrive) : ''}
             </div>
+            ${leg.note ? `<div class="leg-note">${escapeHtml(leg.note)}</div>` : ''}
+            ${cancelled && leg.reason ? `<div class="leg-reason">${escapeHtml(leg.reason)}</div>` : ''}
           </div>
         `;
       }
 
-      // 3. 路线地图
+      // 4. 路线地图（线描 SVG）
       function renderRoute() {
         const cities = D.cities || [];
         if (cities.length === 0) return '';
         return `
-          <section class="route px-6 py-14">
-            <h2 class="section-title font-zen text-xl font-bold mb-6">
-              <span class="underline-wave text-matcha">足 迹</span>
-            </h2>
-            <div class="bg-white/50 hand-border border-matcha/40 rounded-3xl p-5">
-              ${renderRouteSvg(cities)}
-            </div>
-            <div class="mt-5 space-y-2">
+          <section>
+            <div class="sec-head"><span class="kicker">迹</span><h2 class="section-title">足迹</h2></div>
+            ${renderRouteSvg(cities)}
+            <div class="city-list">
               ${cities.map(c => `
-                <div class="flex items-start gap-3 px-2 py-2 rounded-xl hover:bg-white/40 transition">
-                  <div class="text-xl shrink-0">${escapeHtml(c.emoji || '📍')}</div>
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-baseline gap-2">
-                      <span class="font-zen font-bold text-ink">${escapeHtml(c.name)}</span>
-                      <span class="text-xs text-ink-soft">${escapeHtml(c.kana || '')}</span>
-                      <span class="text-xs text-ink-soft ml-auto">${c.days || 0} 天</span>
-                    </div>
-                    ${c.highlight ? `<div class="text-xs text-ink-soft mt-1 leading-relaxed">${escapeHtml(c.highlight)}</div>` : ''}
-                    ${c.stay ? renderStay(c.stay) : ''}
+                <div>
+                  <div class="city-row">
+                    <span class="cname">${escapeHtml(c.name)}</span>
+                    ${c.kana ? `<span class="ckana">${escapeHtml(c.kana)}</span>` : ''}
+                    <span class="cdays">${c.days || 0} 天</span>
                   </div>
+                  ${c.highlight ? `<div class="city-meta">${escapeHtml(c.highlight)}</div>` : ''}
+                  ${c.stay ? renderStay(c.stay) : ''}
                 </div>
               `).join('')}
             </div>
@@ -648,13 +686,12 @@
         const query = [s.en || s.name, s.address].filter(Boolean).join(' ');
         const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
         return `
-          <a href="${url}" target="_blank" rel="noopener"
-             class="flex items-start gap-1.5 text-xs text-matcha mt-1.5 hover:text-matcha/70 transition">
-            <span class="shrink-0">🏨</span>
-            <span class="underline decoration-matcha/40 decoration-dotted underline-offset-2 leading-snug">
+          <a href="${url}" target="_blank" rel="noopener" class="stay-link">
+            <span>📍</span>
+            <span>
               ${escapeHtml(s.name)}
-              ${s.address ? `<span class="text-ink-soft no-underline block mt-0.5 break-words leading-snug">${escapeHtml(s.address)}</span>` : ''}
-              ${s.dates ? `<span class="text-matcha/70 no-underline block mt-0.5">${escapeHtml(s.dates)}</span>` : ''}
+              ${s.address ? `<span style="color:var(--text-muted)">　${escapeHtml(s.address)}</span>` : ''}
+              ${s.dates ? `<span style="color:var(--text-muted)">　${escapeHtml(s.dates)}</span>` : ''}
             </span>
           </a>
         `;
@@ -668,8 +705,6 @@
           const yOffset = i % 2 === 0 ? -10 : 12;
           return { x, y: H / 2 + yOffset, c };
         });
-
-        // 手绘曲线
         let pathD = `M ${pts[0].x} ${pts[0].y}`;
         for (let i = 1; i < pts.length; i++) {
           const prev = pts[i - 1];
@@ -677,44 +712,29 @@
           const midX = (prev.x + cur.x) / 2;
           pathD += ` Q ${midX} ${prev.y - 30} ${midX} ${(prev.y + cur.y) / 2} T ${cur.x} ${cur.y}`;
         }
-
         return `
-          <svg viewBox="0 0 ${W} ${H}" class="w-full h-auto">
-              <path d="${pathD}"
-                    stroke="#6B5E4A" stroke-width="2" fill="none"
-                    stroke-dasharray="4 4" opacity="0.5" />
-              ${pts.map(p => `
-                <g transform="translate(${p.x}, ${p.y})">
-                  <circle r="22" fill="${p.c.color || '#888'}" opacity="0.15" />
-                  <circle r="15" fill="${p.c.color || '#888'}" opacity="0.9" />
-                  <text y="5" text-anchor="middle" font-size="14" fill="white">${escapeHtml(p.c.emoji || '●')}</text>
-                  <text y="-30" text-anchor="middle" font-size="12" fill="#3D3528" font-weight="700"
-                        style="font-family:'Noto Serif JP','Noto Sans JP',serif;">${escapeHtml(p.c.name)}</text>
-                </g>
-              `).join('')}
-            </svg>
-          `;
+          <svg class="route-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="行程路线：大阪 → 京都 → 东京 → 镰仓">
+            <path d="${pathD}" stroke="#D8D8D8" stroke-width="1.5" fill="none" stroke-dasharray="3 4" />
+            ${pts.map(p => `
+              <g transform="translate(${p.x}, ${p.y})">
+                <circle r="6" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.5" />
+                <text y="-14" text-anchor="middle" font-size="12" fill="#1A1A1A"
+                      style="font-family:'Noto Serif JP',serif;font-weight:600">${escapeHtml(p.c.name)}</text>
+              </g>
+            `).join('')}
+          </svg>
+        `;
       }
 
-      // 4. 每日回忆
+      // 5. 每日回忆
       function renderDays() {
         const days = D.days || [];
         return `
-          <section class="days px-6 py-12" id="diary">
-            <h2 class="section-title font-zen text-xl font-bold mb-6">
-              <span class="underline-wave text-sakura">在日本的那些天</span>
-            </h2>
+          <section id="diary">
+            <div class="sec-head"><span class="kicker">记</span><h2 class="section-title">在日本的那些天</h2></div>
             ${days.length === 0
-              ? `
-                <div class="text-center text-ink-soft text-sm py-12 hand-border border-sakura/40 rounded-3xl bg-white/40">
-                  <div class="text-3xl mb-3">🌸</div>
-                  慢慢回忆，慢慢填。<br>
-                  想起哪天加哪天就行。
-                </div>
-              `
-              : `<div class="space-y-3">
-                  ${days.map(d => renderDayCard(d)).join('')}
-                </div>`
+              ? `<p class="empty">慢慢回忆，慢慢填。<br>想起哪天加哪天就行。</p>`
+              : `<div>${days.map(d => renderDayCard(d)).join('')}</div>`
             }
           </section>
         `;
@@ -723,76 +743,48 @@
       function renderDayCard(d) {
         const spots = d.spots || [];
         const rides = d.rides || [];
-        const areaColor = {
-          "好莱坞": "sakura",
-          "环球奇境": "matcha",
-          "哈利波特的魔法世界": "indigo",
-          "超级任天堂世界": "tachibana",
-          "小黄人乐园": "amber"
-        };
-        const areaBg = {
-          "好莱坞": "bg-sakura/10 border-sakura/30 text-sakura",
-          "环球奇境": "bg-matcha/10 border-matcha/30 text-matcha",
-          "哈利波特的魔法世界": "bg-indigo-200/40 border-indigo-300/50 text-indigo-700",
-          "超级任天堂世界": "bg-tachibana/10 border-tachibana/30 text-tachibana",
-          "小黄人乐园": "bg-amber-100 border-amber-200 text-amber-700"
-        };
         const ridesHtml = rides.length > 0 ? `
-          <div class="mt-4">
-            <div class="text-xs font-zen font-bold text-ink-soft mb-2">🎢 项目与评价</div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              ${rides.map(r => `
-                <div class="rounded-xl p-3 border ${areaBg[r.area] || 'bg-white border-sakura/20 text-ink'} hand-border">
-                  <div class="flex items-start justify-between gap-2">
-                    <div class="font-zen font-bold text-sm leading-tight">${escapeHtml(r.name)}</div>
-                    <div class="text-[10px] shrink-0 opacity-80">${escapeHtml(r.area)}</div>
-                  </div>
-                  ${r.note ? `<div class="text-xs mt-1.5 leading-relaxed opacity-90">${escapeHtml(r.note)}</div>` : ''}
-                  ${r.tags && r.tags.length > 0 ? `
-                    <div class="flex flex-wrap gap-1 mt-2">
-                      ${r.tags.map(t => `
-                        <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-white/60 border border-current/20">${escapeHtml(t)}</span>
-                      `).join('')}
-                    </div>
-                  ` : ''}
-                </div>
-              `).join('')}
-            </div>
+          <div class="ride-grid">
+            ${rides.map(r => `
+              <div class="ride-card">
+                <div class="r-name">${escapeHtml(r.name)}</div>
+                ${r.area ? `<div class="r-area">${escapeHtml(r.area)}</div>` : ''}
+                ${r.note ? `<div class="r-note">${escapeHtml(r.note)}</div>` : ''}
+                ${r.tags && r.tags.length > 0 ? `
+                  <div class="r-tags">${r.tags.map(t => `<span>${escapeHtml(t)}</span>`).join('')}</div>
+                ` : ''}
+              </div>
+            `).join('')}
           </div>
         ` : '';
         return `
-          <details class="day-card bg-white/60 rounded-2xl border border-sakura/30 overflow-hidden">
-            <summary class="flex items-center gap-3 p-4 hover:bg-sakura/5 transition">
-              <div class="shrink-0 w-10 h-10 rounded-full bg-sakura/10 hand-border border-sakura/40 flex items-center justify-center font-zen text-sm font-bold text-sakura">
-                ${d.day}
-              </div>
-              <div class="flex-1 min-w-0">
-                <div class="font-zen font-bold text-ink text-base">${escapeHtml(d.city || '')}</div>
-                <div class="text-xs text-ink-soft mt-0.5">${escapeHtml(dayDate(d.day))}${d.mood ? ' · ' + escapeHtml(d.mood) : ''} ${escapeHtml(d.moodEmoji || '')}</div>
-              </div>
-              <div class="chev text-sakura text-xl shrink-0">⌄</div>
+          <details class="day-card">
+            <summary>
+              <span class="day-badge">${d.day}</span>
+              <span>
+                <div class="day-title">${escapeHtml(d.city || '')}</div>
+                <div class="day-sub">${escapeHtml(dayDate(d.day))}${d.mood ? ' · ' + escapeHtml(d.mood) : ''} ${escapeHtml(d.moodEmoji || '')}</div>
+              </span>
+              <span class="chev">⌄</span>
             </summary>
-            <div class="px-4 pb-4 text-[0.95rem] leading-loose text-ink border-t border-sakura/10 pt-3">
+            <div class="day-body">
               <p>${escapeHtml(d.story || '')}</p>
               ${d.photos && d.photos.length > 0 ? `
                 <!-- 后续配图建议：统一 WebP 格式、800x600、加 loading="lazy" 懒加载 -->
-                <div class="mt-3 grid grid-cols-2 gap-2">
+                <div class="photo-grid">
                   ${d.photos.map(p => `
-                    <figure class="day-figure">
-                      <img src="${escapeHtml(p)}" alt="旅行回忆照片" loading="lazy"
-                           class="day-photo w-full h-36 object-cover rounded-xl border-2 border-white shadow-sm" />
+                    <figure>
+                      <img src="${escapeHtml(p)}" alt="旅行回忆照片" loading="lazy" class="day-photo" />
+                      <figcaption class="photo-cap"></figcaption>
                     </figure>
                   `).join('')}
                 </div>
               ` : ''}
               ${ridesHtml}
               ${spots.length > 0 ? `
-                <div class="mt-3 flex flex-wrap gap-2">
+                <div class="spot-tags">
                   ${spots.map(s => `
-                    <a href="${mapsUrl(s, d.city)}" target="_blank" rel="noopener"
-                       class="inline-flex items-center text-xs bg-matcha/10 text-matcha px-2.5 py-1 rounded-full border border-matcha/30 hover:bg-matcha/20 transition">
-                      📍 ${escapeHtml(s)}
-                    </a>
+                    <a href="${mapsUrl(s, d.city)}" target="_blank" rel="noopener">📍 ${escapeHtml(s)}</a>
                   `).join('')}
                 </div>
               ` : ''}
@@ -801,7 +793,7 @@
         `;
       }
 
-      // 5. 美食（味觉地图：网格卡片）
+      // 6. 美食（味觉地图：网格卡片）
       function renderFoods() {
         const foods = D.foods || [];
         const groups = {};
@@ -810,36 +802,21 @@
           (groups[c] = groups[c] || []).push(f);
         });
         const groupKeys = Object.keys(groups);
-        const EMO = ['😋', '🍜', '🍣', '🍡', '🍰', '🍵', '🥘', '🍱'];
-
         return `
-          <section class="foods px-6 py-12" id="food">
-            <h2 class="section-title font-zen text-xl font-bold mb-6">
-              <span class="underline-wave text-tachibana">味 觉 地 图</span>
-            </h2>
+          <section id="food">
+            <div class="sec-head"><span class="kicker">食</span><h2 class="section-title">味觉地图</h2></div>
             ${foods.length === 0
-              ? `
-                <div class="text-center text-ink-soft text-sm py-12 hand-border border-tachibana/40 rounded-3xl bg-white/40">
-                  <div class="text-3xl mb-3">🍜</div>
-                  想到啥就加一条。<br>
-                  胃比脑子记得清。
-                </div>
-              `
+              ? `<p class="empty">想到啥就加一条。<br>胃比脑子记得清。</p>`
               : `<div class="space-y-7">
-                  ${groupKeys.map((city, gi) => `
+                  ${groupKeys.map(city => `
                     <div>
-                      <div class="flex items-center mb-3">
-                        <span class="w-1 h-4 bg-tachibana rounded-full mr-2"></span>
-                        <span class="font-zen font-bold text-tachibana text-sm">${escapeHtml(city)}</span>
-                        <span class="text-xs text-ink-soft ml-2">${groups[city].length} 家</span>
-                      </div>
+                      <div class="leg-group-title">${escapeHtml(city)}<span style="font-weight:400;color:var(--text-muted);font-size:.8rem;margin-left:.4rem">${groups[city].length} 家</span></div>
                       <div class="food-grid">
-                        ${groups[city].map((f, i) => `
+                        ${groups[city].map(f => `
                           <div class="food-card">
-                            <div class="text-2xl mb-1">${EMO[(gi + i) % EMO.length]}</div>
                             <div class="f-name">${escapeHtml(f.name)}</div>
-                            ${f.note ? `<div class="text-xs text-ink-soft mt-1 leading-relaxed">${escapeHtml(f.note)}</div>` : ''}
-                            <div class="f-rating">⭐ 推荐指数：4.8/5</div>
+                            ${f.note ? `<div class="f-note">${escapeHtml(f.note)}</div>` : ''}
+                            <div class="f-rating"><span class="star">★</span> 推荐指数：4.8/5</div>
                           </div>
                         `).join('')}
                       </div>
@@ -851,30 +828,20 @@
         `;
       }
 
-      // 6. 手信
+      // 7. 手信
       function renderSouvenirs() {
         const items = D.souvenirs || [];
         return `
-          <section class="souvenirs px-6 py-12">
-            <h2 class="section-title font-zen text-xl font-bold mb-6">
-              <span class="underline-wave text-purple">手 信 与 小 收 藏</span>
-            </h2>
+          <section>
+            <div class="sec-head"><span class="kicker">物</span><h2 class="section-title">手信与小收藏</h2></div>
             ${items.length === 0
-              ? `
-                <div class="text-center text-ink-soft text-sm py-12 hand-border border-purple/40 rounded-3xl bg-white/40">
-                  <div class="text-3xl mb-3">🎁</div>
-                  买了啥、推荐哪家、想再去哪——都贴这儿。
-                </div>
-              `
-              : `<div class="grid grid-cols-2 gap-3">
-                  ${items.map((s, i) => `
-                    <div class="relative bg-white/70 border border-purple/20 rounded-2xl p-4 hover:shadow-md transition hover:rotate-0"
-                         style="transform: rotate(${i % 2 === 0 ? -1.2 : 1.2}deg);">
-                      <div class="tape tape-purple" style="top:-8px;${i % 2 === 0 ? 'left:30%' : 'right:30%'};transform:rotate(${i % 2 === 0 ? -4 : 5}deg);"></div>
-                      <div class="text-2xl mb-2">${emojiForType(s.type)}</div>
-                      <div class="font-zen font-bold text-sm text-ink leading-snug">${escapeHtml(s.name)}</div>
-                      <div class="text-xs text-ink-soft mt-1">${escapeHtml(s.city || '')} · ${escapeHtml(s.type || '')}</div>
-                      ${s.note ? `<div class="text-xs text-ink-soft mt-2 italic leading-relaxed">${escapeHtml(s.note)}</div>` : ''}
+              ? `<p class="empty">买了啥、推荐哪家、想再去哪——都贴这儿。</p>`
+              : `<div class="souv-grid">
+                  ${items.map(s => `
+                    <div class="souv-card">
+                      <div class="s-name">${escapeHtml(s.name)}</div>
+                      <div class="s-meta">${escapeHtml(s.city || '')}${s.type ? ' · ' + escapeHtml(s.type) : ''}</div>
+                      ${s.note ? `<div class="s-note">${escapeHtml(s.note)}</div>` : ''}
                     </div>
                   `).join('')}
                 </div>`
@@ -883,33 +850,30 @@
         `;
       }
 
-      // 7. 留言板（替换原「下次再去」愿望清单）
+      // 8. 留言板（替换原「下次再去」愿望清单）
       function renderGuestbook() {
         const seed = D.guestbook || [];
         return `
-          <section class="guestbook px-6 py-12" id="guestbook"
-                   style="background: linear-gradient(180deg, rgba(83,74,183,0.05), transparent);">
-            <h2 class="section-title font-zen text-xl font-bold mb-3">
-              <span class="underline-wave text-purple">留 言 墙</span>
-            </h2>
-            <p class="text-center text-xs text-ink-soft mb-6">来过的朋友，留句话再走 👇</p>
+          <section id="guestbook">
+            <div class="sec-head"><span class="kicker">言</span><h2 class="section-title">留言墙</h2></div>
+            <p class="lead" style="margin-bottom:1.5rem">来过的朋友，留句话再走。</p>
 
-            <form class="gb-form mb-7 bg-white/60 border border-purple/20 rounded-2xl p-4 space-y-2.5" id="gb-form">
+            <form class="gb-form" id="gb-form">
               <input type="text" id="gb-name" maxlength="20" placeholder="你的名字 / 昵称" />
               <textarea id="gb-text" rows="3" maxlength="200" placeholder="写句留言吧～（最多 200 字）"></textarea>
-              <div class="flex items-center justify-between pt-0.5">
-                <span class="text-[10px] text-ink-soft" id="gb-count">0 / 200</span>
+              <div class="gb-row">
+                <span class="gb-count" id="gb-count">0 / 200</span>
                 <button type="submit" class="gb-submit">留 言</button>
               </div>
             </form>
 
-            <div class="space-y-3" id="gb-list">
+            <div class="gb-list" id="gb-list">
               ${renderGuestbookCards(seed, loadGuestbookState())}
             </div>
 
             <!-- Giscus 多人评论（需在 GitHub 仓库安装 Giscus App 并开启 Discussions；repo-id/category-id 在 Giscus 安装页获取后填入） -->
-            <div class="mt-10 pt-6 border-t border-purple/20">
-              <div class="text-center text-xs text-ink-soft mb-3">或用下方评论区留言（需先开启 GitHub Discussions）</div>
+            <div class="giscus-wrap">
+              <div class="giscus-hint">或用下方评论区留言（需先开启 GitHub Discussions）</div>
               <div class="giscus" id="giscus-thread"></div>
             </div>
           </section>
@@ -920,9 +884,7 @@
         const seeds = (seed || []).map(m => gbCard(m, false));
         const users = (userMsgs || []).slice().reverse().map(m => gbCard(m, true));
         if (!seeds.length && !users.length) {
-          return `<div class="text-center text-ink-soft text-sm py-10 hand-border border-purple/30 rounded-3xl bg-white/40">
-            <div class="text-3xl mb-2">✍️</div>还没有留言，来当第一个吧
-          </div>`;
+          return `<p class="empty">还没有留言，来当第一个吧。</p>`;
         }
         return users.concat(seeds).join('');
       }
@@ -930,9 +892,8 @@
       function gbCard(m, isUser) {
         const date = m.date ? `<span class="gb-date">${escapeHtml(m.date)}</span>` : '';
         return `
-          <div class="gb-card ${isUser ? 'gb-card-user' : ''}">
-            <div class="tape ${isUser ? 'tape-purple' : 'tape-gold'}" style="top:-8px;left:22px;transform:rotate(-3deg);"></div>
-            <div class="flex items-baseline justify-between gap-2 mb-1.5">
+          <div class="gb-card">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:.5rem">
               <span class="gb-name">${escapeHtml(m.name || '匿名')}</span>
               ${date}
             </div>
@@ -941,26 +902,21 @@
         `;
       }
 
-      // 8. 结尾
+      // 9. 结尾
       function renderEnding() {
         return `
-          <section class="ending px-6 py-16 text-center relative overflow-hidden"
-                   style="background: linear-gradient(180deg, rgba(212,83,126,0.06), rgba(212,83,126,0.14));">
-            ${sakuraSvg(20, 10, '#D4537E').replace('position: absolute', 'position:absolute;top:30px;left:30%')}
-            ${sakuraSvg(16, -15, '#D85A30').replace('position: absolute', 'position:absolute;bottom:60px;right:25%')}
-
-            <div class="text-4xl mb-4">🌸</div>
-            <p class="font-zen text-base text-ink leading-loose max-w-xs mx-auto">
+          <section class="ending">
+            <p>
               在日本的那些天已经过去，<br>
               但这些味道和光，<br>
               还有你们留下的字，都还在。
             </p>
-            <div class="text-xs text-ink-soft mt-8">— 回忆版 · by 红线 & 老大</div>
+            <div class="sign">— 回忆版 · by 红线 &amp; 老大</div>
           </section>
         `;
       }
 
-      // 3.5 足迹地图（Google My Maps 嵌入 + 城市坐标）
+      // 10. 足迹地图（Google Maps 嵌入 + 城市坐标）
       function renderFootMap() {
         const cities = [
           { name: '大阪', en: 'Osaka',    coord: '34.6937° N, 135.5023° E' },
@@ -972,34 +928,32 @@
         const mapSrc = 'https://maps.google.com/maps?q=' +
           encodeURIComponent('大阪 京都 东京 镰仓 日本') + amp + 'z=6' + amp + 'output=embed';
         return `
-          <section class="footmap px-6 py-12" id="footmap">
-            <h2 class="section-title font-zen text-xl font-bold mb-6">
-              <span class="underline-wave text-matcha">足 迹 地 图</span>
-            </h2>
-            <div class="overflow-hidden rounded-xl shadow-sm">
+          <section id="footmap">
+            <div class="sec-head"><span class="kicker">图</span><h2 class="section-title">足迹地图</h2></div>
+            <div>
               <iframe src="${mapSrc}" title="日本旅行足迹地图：大阪 → 京都 → 东京 → 镰仓"
                       loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
             </div>
             <ul class="coord-list">
               ${cities.map(c => `
                 <li>
-                  <div class="c-city">${escapeHtml(c.name)} <span style="font-weight:400;color:var(--ink-soft)">${escapeHtml(c.en)}</span></div>
-                  <div style="color:var(--ink-soft)">${escapeHtml(c.coord)}</div>
+                  <div class="c-city">${escapeHtml(c.name)} <span style="font-weight:400;color:var(--text-muted)">${escapeHtml(c.en)}</span></div>
+                  <div class="c-coord">${escapeHtml(c.coord)}</div>
                 </li>
               `).join('')}
             </ul>
-            <p class="text-xs text-ink-soft mt-3">提示：把上面 iframe 的 src 替换成你自己的 Google My Maps 嵌入链接，即可展示自定义路线。</p>
+            <p class="hint">提示：把上面 iframe 的 src 替换成你自己的 Google My Maps 嵌入链接，即可展示自定义路线。</p>
           </section>
         `;
       }
 
-      // 10. 页脚 + 回到顶部
+      // 11. 页脚 + 回到顶部
       function renderFooter() {
         return `
           <footer class="site-footer">
             <div>© 2026 老大 · 旅行回忆录</div>
-            <div style="opacity:.7;margin-top:.4rem;font-size:.78rem;">大阪 · 京都 · 东京 · 镰仓 ｜ 13 天治愈之旅</div>
-            <button class="back-top" id="back-top">↑ 回到顶部</button>
+            <div style="opacity:.7;margin-top:.4rem;font-size:.78rem">大阪 · 京都 · 东京 · 镰仓 ｜ 13 天治愈之旅</div>
+            <span class="back-top" id="back-top">回到顶部</span>
           </footer>
         `;
       }
@@ -1022,12 +976,11 @@
           renderFooter(),
         ].join('');
 
-        // 给非 hero 区块注入滚动揭示（弹簧浮现）
-        app.querySelectorAll('#app > section:not(.hero)').forEach(s => s.classList.add('reveal'));
+        // 给非 hero 区块注入滚动淡入
+        app.querySelectorAll('section:not(.hero)').forEach(s => s.classList.add('reveal'));
 
         bindGuestbook();
         bindLightbox();
-        bindScrollProgress();
         bindGiscus();
         bindBackTop();
         bindNavHighlight();
@@ -1106,7 +1059,6 @@
           const state = loadGuestbookState();
           state.push(msg);
           saveGuestbookState(state);
-          // 重渲染列表（保留表单）
           list.innerHTML = renderGuestbookCards(D.guestbook || [], state);
           ta.value = '';
           if (count) count.textContent = '0 / 200';
@@ -1116,7 +1068,7 @@
         });
       }
 
-      // 照片灯箱（弹簧缩放 + 毛玻璃 + 滚动锁定）
+      // 照片灯箱（纯白叠层 + 仅淡入）
       function bindLightbox() {
         const lb = document.getElementById('lightbox');
         const lbImg = document.getElementById('lightbox-img');
@@ -1135,7 +1087,7 @@
         });
       }
 
-      // 滚动揭示（弹簧浮现）：给非 hero 区块注入 .reveal 后观察
+      // 滚动淡入：给非 hero 区块注入 .reveal 后观察
       function bindReveal() {
         const els = [].slice.call(app.querySelectorAll('section.reveal'));
         if (!els.length) return;
@@ -1154,24 +1106,10 @@
         els.forEach(e => obs.observe(e));
       }
 
-      // 顶部滚动进度
-      function bindScrollProgress() {
-        const bar = document.getElementById('scroll-progress');
-        if (!bar) return;
-        function update() {
-          const h = document.documentElement.scrollHeight - window.innerHeight;
-          const p = h > 0 ? (window.scrollY / h) * 100 : 0;
-          bar.style.width = p + '%';
-        }
-        window.addEventListener('scroll', update, { passive: true });
-        update();
-      }
-
       // 等待数据加载完成
       if (window.TRIP_DATA) {
         render();
       } else {
-        // 兜底：等 DOM 就绪后再试一次
         document.addEventListener('DOMContentLoaded', function () {
           if (window.TRIP_DATA) render();
         });
