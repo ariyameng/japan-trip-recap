@@ -360,10 +360,36 @@
     .day-card[open] .chev { transform: rotate(180deg); }
     .day-body { padding: 0 1.25rem 1.25rem; border-top: 1px solid var(--line); margin-top: 0; padding-top: 1.1rem; }
     .day-body p { margin: 0 0 1.1em; }
-    .photo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-top: 1rem; }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);   /* 桌面端固定 2 列 */
+      gap: 16px;
+      margin: 28px 0;                          /* 图片组上下各留 24–32px */
+    }
     .photo-grid figure { margin: 0; }
-    .photo-grid img { width: 100%; display: block; border-radius: 0; }
-    .photo-cap { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.45rem; }
+    /* 统一 4:3 容器：所有照片裁切居中填充，杜绝原始尺寸忽长忽短 */
+    .photo-frame {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #FAFAFA;
+      border: 1px solid var(--line);
+    }
+    .photo-grid img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    /* 极小图注：12px 灰字，与图片间距 8px */
+    .photo-cap {
+      font-size: 12px;
+      color: #6B6B6B;
+      margin-top: 8px;
+      line-height: 1.6;
+      text-align: left;
+    }
     .spot-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
     .spot-tags a {
       font-size: 0.78rem; color: var(--text-muted);
@@ -427,6 +453,8 @@
     .ending { text-align: center; }
     .ending p { color: var(--text-muted); font-size: 1rem; max-width: 28rem; margin: 1.5rem auto 0; line-height: 2; }
     .ending .sign { font-size: 0.78rem; color: var(--text-muted); margin-top: 2rem; letter-spacing: 0.1em; }
+    /* 朱红"线"标记：替代 emoji 🧵（emoji 颜色由系统决定，无法用 CSS 染红） */
+    .ending .sign .thread-mark { width: 22px; height: 7px; display: inline-block; vertical-align: -1px; margin: 0 2px; }
 
     /* —— 页脚：白底细线，文字链回顶 —— */
     .site-footer {
@@ -786,6 +814,27 @@
       // 印章汉字：按日记轮转，仅作极小的朱红点缀
       const SEAL_CHARS = ['旅', '日', '记', '行'];
 
+      // 统一相册：CSS Grid（桌面 2 列 / 移动 1 列）+ 4:3 定高容器 + cover 裁切 + 极小图注
+      // 图注写在 data.js 的 captions 数组里（与 photos 一一对应）
+      function renderPhotos(d) {
+        const imgs = d.photos || [];
+        if (!imgs.length) return '';
+        const caps = d.captions || [];
+        return `
+          <div class="photo-grid">
+            ${imgs.map((p, i) => {
+              const cap = caps[i] || '';
+              return `
+                <figure>
+                  <div class="photo-frame">
+                    <img src="${escapeHtml(p)}" alt="${cap ? escapeHtml(cap) : '旅行回忆照片'}" loading="lazy" class="day-photo" />
+                  </div>
+                  ${cap ? `<figcaption class="photo-cap">${escapeHtml(cap)}</figcaption>` : ''}
+                </figure>`;
+            }).join('')}
+          </div>`;
+      }
+
       function renderDayCard(d) {
         const isNew = Array.isArray(d.projects) || Array.isArray(d.places) || typeof d.feeling === 'string';
         const rides = d.rides || [];
@@ -833,15 +882,7 @@
         if (isNew) {
           const proj = (d.projects || []).map(p => `<li>${escapeHtml(p)}</li>`).join('');
           const plc = (d.places || []).map(p => `<span class="place-tag">${escapeHtml(p)}</span>`).join('');
-          const photos = (d.photos && d.photos.length) ? `
-            <div class="photo-grid">
-              ${d.photos.map(p => `
-                <figure>
-                  <img src="${escapeHtml(p)}" alt="旅行回忆照片" loading="lazy" class="day-photo" />
-                  <figcaption class="photo-cap"></figcaption>
-                </figure>
-              `).join('')}
-            </div>` : '';
+          const photos = renderPhotos(d);
           bodyInner = `
             ${proj ? `<div class="day-sec"><div class="day-sec-h">【项目】</div><ul class="day-list">${proj}</ul></div>` : ''}
             ${plc ? `<div class="day-sec"><div class="day-sec-h">【地点】</div><div class="place-tags">${plc}</div></div>` : ''}
@@ -850,15 +891,7 @@
             ${d.feeling ? `<div class="day-sec"><div class="day-sec-h">【感受】</div><blockquote class="day-feel">${escapeHtml(d.feeling)}</blockquote></div>` : ''}
           `;
         } else {
-          const photos = (d.photos && d.photos.length) ? `
-            <div class="photo-grid">
-              ${d.photos.map(p => `
-                <figure>
-                  <img src="${escapeHtml(p)}" alt="旅行回忆照片" loading="lazy" class="day-photo" />
-                  <figcaption class="photo-cap"></figcaption>
-                </figure>
-              `).join('')}
-            </div>` : '';
+          const photos = renderPhotos(d);
           bodyInner = `<p>${escapeHtml(d.story || '')}</p>${photos}${ridesHtml}${spotsHtml}`;
         }
 
@@ -961,7 +994,7 @@
               但这些味道和光，<br>
               还有你们留下的字，都还在。
             </p>
-            <div class="sign">— 回忆版 · by 红线 &amp; 老大</div>
+            <div class="sign">— 回忆版 · by 红线<svg class="thread-mark" viewBox="0 0 24 7" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M1 3.5 C4 0.6, 7 6.4, 12 3.5 S19 0.6, 23 3.5" stroke="#BC002D" stroke-width="1.3" stroke-linecap="round"/></svg> &amp; 老大</div>
           </section>
         `;
       }

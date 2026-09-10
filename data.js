@@ -267,7 +267,8 @@ window.TRIP_DATA = {
       ],
       places: ["关西国际机场", "难波", "一兰拉面 道顿堀店", "道顿堀", "心斋桥"],
       feeling: "折腾三天，这一刻的真实感比什么都强。",
-      photos: ["photos/day1-nankai-tickets.jpg", "photos/day1-ichiran.jpg"]
+      photos: ["photos/day1-nankai-tickets.jpg", "photos/day1-ichiran.jpg"],
+      captions: ["南海电铁车票 · 关西机场到难波", "落地第一顿：一兰拉面"]
     },
     {
       day: 2,
@@ -288,6 +289,13 @@ window.TRIP_DATA = {
         "photos/day2-shinsaibashi.jpg",
         "photos/day2-dotonbori-sunset.jpg",
         "photos/day2-takoyaki.jpg"
+      ],
+      captions: [
+        "うなぎの中庄 · 鳗鱼三吃",
+        "藏在戎桥筋大楼里的鳗鱼店",
+        "心斋桥筋商店街",
+        "道顿堀河边，撞上一场日落",
+        "章鱼烧，酱的葱的各一盒"
       ]
     },
     {
@@ -308,6 +316,12 @@ window.TRIP_DATA = {
         "photos/day3-osakacastle.jpg",
         "photos/day3-v50.jpg",
         "photos/day3-sushiro-kitty.jpg"
+      ],
+      captions: [
+        "站台 · 等一趟去京都的车",
+        "大阪城天守阁",
+        "大阪城前 · 手里的小达摩",
+        "寿司郎 × Hello Kitty 联名立牌"
       ]
     },
     {
@@ -328,6 +342,12 @@ window.TRIP_DATA = {
         "photos/day4-fushimi-ema.jpg",
         "photos/day4-fushimi-mountain.jpg",
         "photos/day4-kamogawa.jpg"
+      ],
+      captions: [
+        "伏见稻荷 · 楼门",
+        "千本鸟居旁的绘马",
+        "伏见稻荷半山腰",
+        "鸭川"
       ]
     },
     {
@@ -351,6 +371,15 @@ window.TRIP_DATA = {
         "photos/day5-omikuji.jpg",
         "photos/day5-kifune-lanterns.jpg",
         "photos/day5-kifune-shrine.jpg"
+      ],
+      captions: [
+        "三千院 · 石灯笼",
+        "三千院庭园",
+        "松门 · 店门口",
+        "松门店内",
+        "三千院抽到的吉签",
+        "贵船神社 · 参道灯笼",
+        "贵船神社"
       ]
     },
     {
@@ -371,6 +400,12 @@ window.TRIP_DATA = {
         "photos/day6-hollywood-dream.jpg",
         "photos/day6-hello-kitty.jpg",
         "photos/day6-hogwarts.jpg"
+      ],
+      captions: [
+        "USJ 大地球",
+        "好莱坞美梦乘车游",
+        "Hello Kitty 梦幻蛋糕杯",
+        "哈利波特的魔法世界"
       ],
       rides: [
         { name: "好莱坞美梦乘车游", area: "好莱坞", tags: ["尖叫/顶级刺激"], note: "第一个就排了这个，后面鹰马飞行和飞天翼龙直接没敢排。Osaka lover 完全没听，只是一味地啊啊啊啊啊" },
@@ -403,6 +438,11 @@ window.TRIP_DATA = {
         "photos/day7-1.jpeg",
         "photos/day7-2.jpeg",
         "photos/day7-3.jpeg"
+      ],
+      captions: [
+        "新干线车窗外的东京，雨还没停",
+        "浅草 · 奥山参道入口",
+        "研究日本洗衣机，拍照问了 ChatGPT"
       ]
     },
     {
@@ -423,6 +463,12 @@ window.TRIP_DATA = {
         "photos/day8-2.jpeg",
         "photos/day8-4.jpeg",
         "photos/day8-5.jpeg"
+      ],
+      captions: [
+        "浅草寺 · 一起求来的达摩小袋",
+        "浅草寺五重塔",
+        "秋叶原的招牌与电波塔",
+        "便利店门口的傍晚"
       ]
     },
     {
@@ -446,6 +492,15 @@ window.TRIP_DATA = {
         "photos/day9-6.jpeg",
         "photos/day9-7.jpeg",
         "photos/day9-8.jpeg"
+      ],
+      captions: [
+        "银座 · みのる食堂的定食",
+        "抹茶白玉红豆甜碗",
+        "涩谷 · 忠犬八公像",
+        "涩谷街头",
+        "东京塔",
+        "东京塔夜景",
+        "罗森便利店的晚餐"
       ]
     },
     {
@@ -466,6 +521,13 @@ window.TRIP_DATA = {
         "photos/day10-4.jpeg",
         "photos/day10-5.jpeg",
         "photos/day10-6.jpeg"
+      ],
+      captions: [
+        "镰仓 · KAMOKOTO KITCHEN 午餐",
+        "江之岛 · 海边",
+        "江之岛 · 海上的皮划艇",
+        "江之电 · 镰仓站",
+        "回东京后的浅草夜晚 · 西参道"
       ]
     },
     {
@@ -484,6 +546,11 @@ window.TRIP_DATA = {
         "photos/day11-2.jpeg",
         "photos/day11-3.jpeg",
         "photos/day11-4.jpeg"
+      ],
+      captions: [
+        "鰻御食事処 九寅 · 鳗鱼饭",
+        "浅草 · 一墙的招财猫",
+        "鸟贵族 · 餐后甜点"
       ]
     },
     {
@@ -501,6 +568,10 @@ window.TRIP_DATA = {
       photos: [
         "photos/day12-1.jpeg",
         "photos/day12-2.jpeg"
+      ],
+      captions: [
+        "成田机场 · 白色恋人",
+        "最后一点日元喂了星巴克"
       ]
     },
     {
