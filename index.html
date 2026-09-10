@@ -126,6 +126,26 @@
       line-height: 1; margin-top: 1.2rem;
     }
 
+    /* —— 致谢：纯文字排版，无图片无图标，靠留白与灰字分级 —— */
+    .acknowledgement { margin-top: 80px; margin-bottom: 80px; }
+    .acknowledgement .section-title {
+      display: flex; align-items: baseline; gap: 0.7rem;
+      margin: 0 0 2.75rem;                 /* 与其他版块 .sec-head 的节奏一致 */
+    }
+    .ack-friends { font-size: 16px; color: #1A1A1A; line-height: 1.8; margin: 0 0 32px; }
+    .ack-subtitle { font-size: 13px; color: #6B6B6B; margin: 24px 0 12px; }
+    .ack-tags { display: flex; flex-wrap: wrap; gap: 10px 16px; }
+    .ack-tags span {
+      font-size: 13px; color: #6B6B6B;
+      background: transparent;
+      border: 1px solid #E8E8E8;
+      border-radius: 2px;
+      padding: 4px 10px;
+      line-height: 1.6;
+      transition: border-color .2s ease, color .2s ease;
+    }
+    .ack-tags span:hover { border-color: #BC002D; color: #BC002D; cursor: pointer; }
+
     /* —— 枯山水分隔：替代水平分割线，作段落间的呼吸停顿 —— */
     .karesansui {
       display: flex; justify-content: center;
@@ -930,7 +950,22 @@
         `;
       }
 
-      // 9. 结尾
+      // 9. 致谢（纯文字，无图片无图标）
+      function renderAcknowledgement() {
+        const apps = ['飞猪', '去哪儿', 'Klook', 'USJ', 'ChatGPT', '高德地图', '小米手机', 'Softbank 日本流量卡', 'Agoda', '长龙航空', '厦门航空'];
+        return `
+          <section class="acknowledgement" id="thanks">
+            <h2 class="section-title"><span class="kicker">谢</span> 致谢</h2>
+            <p class="ack-friends">感谢一路陪伴的朋友。</p>
+            <p class="ack-subtitle">感谢这些工具与服务的帮助：</p>
+            <div class="ack-tags">
+              ${apps.map(a => `<span>${escapeHtml(a)}</span>`).join('')}
+            </div>
+          </section>
+        `;
+      }
+
+      // 10. 结尾
       function renderEnding() {
         return `
           <section class="ending">
@@ -944,7 +979,7 @@
         `;
       }
 
-      // 10. 足迹地图（静态路线图 + 城市坐标）
+      // 11. 足迹地图（静态路线图 + 城市坐标）
       function renderFootMap() {
         const cities = [
           { name: '大阪', en: 'Osaka',    coord: '34.6937° N, 135.5023° E' },
@@ -973,7 +1008,7 @@
         `;
       }
 
-      // 11. 页脚 + 回到顶部
+      // 12. 页脚 + 回到顶部
       function renderFooter() {
         return `
           <footer class="site-footer">
@@ -1006,6 +1041,7 @@
           renderDays(),
           renderFoods(),
           renderSouvenirs(),
+          renderAcknowledgement(),
           renderEnding(),
           renderFooter(),
         ].join(KARESANSUI);
